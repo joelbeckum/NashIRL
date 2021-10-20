@@ -101,12 +101,15 @@ namespace NashIRL.Repositories
                 {
                     cmd.CommandText = @"
                                         INSERT INTO
-                                        UserProfile (Email, FirebaseUserId) 
+                                        UserProfile (FirebaseUserId, FirstName, LastName, Email, UserTypeId) 
                                         OUTPUT INSERTED.ID
-                                        VALUES(@email, @firebaseUserId)";
+                                        VALUES(@firebaseUserId, @firstName, @lastName, @email, @userTypeId)";
 
-                    cmd.Parameters.AddWithValue("@email", userProfile.Email);
                     cmd.Parameters.AddWithValue("@firebaseUserId", userProfile.FirebaseUserId);
+                    cmd.Parameters.AddWithValue("@firstName", userProfile.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", userProfile.LastName);
+                    cmd.Parameters.AddWithValue("@email", userProfile.Email);
+                    cmd.Parameters.AddWithValue("@userTypeId", userProfile.UserTypeId);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }

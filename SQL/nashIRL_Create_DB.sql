@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS [UserType];
 
 CREATE TABLE [UserProfile] (
   [Id] int PRIMARY KEY IDENTITY(1, 1),
-  [FirebaseUserId] int,
+  [FirebaseUserId] nvarchar(28),
   [FirstName] nvarchar(255) NOT NULL,
   [LastName] nvarchar(255) NOT NULL,
   [Email] nvarchar(255) NOT NULL,
@@ -67,7 +67,7 @@ GO
 CREATE TABLE [EventTag] (
   [EventId] int NOT NULL,
   [TagId] int NOT NULL,
-  PRIMARY KEY ([EventId, TagId])
+  PRIMARY KEY ([EventId], [TagId])
 )
 GO
 
