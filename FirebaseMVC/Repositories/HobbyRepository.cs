@@ -35,7 +35,7 @@ namespace NashIRL.Repositories
                     Name = DbUtils.GetString(reader, "Name"),
                     IsApproved = DbUtils.GetBool(reader, "IsApproved"),
                     ApprovedBy = DbUtils.GetIntOrZero(reader, "ApprovedBy"),
-                    ApprovedOn = (DateTime)DbUtils.GetNullableDateTime(reader, "ApprovedOn")
+                    ApprovedOn = DbUtils.GetNullableDateTime(reader, "ApprovedOn")
                 };
                 hobbies.Add(hobby);
             }

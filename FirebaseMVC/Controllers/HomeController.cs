@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using NashIRL.Models;
+using NashIRL.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using NashIRL.Repositories;
@@ -23,9 +24,18 @@ namespace NashIRL.Controllers
 
         public IActionResult Index()
         {
-            var userProfileId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var userProfile = _userProfileRepository.GetById(userProfileId);
-            return View(userProfile);
+            var currentUserProfile = _userProfileRepository.GetById(GetCurrentUserProfileId());
+            var hobbies = _hobbyRepository.GetAll();
+            var events = _eventRepository.GetAll();
+
+            var vm = new HomeViewModel()
+            {
+                UserProfile = currentUserProfile,
+                Hobbies = hobbies,
+                Events = events
+            };
+
+            return View(vm);
         }
 
         public IActionResult Privacy()
@@ -37,6 +47,11 @@ namespace NashIRL.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private int GetCurrentUserProfileId()
+        {
+            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
     }
 }

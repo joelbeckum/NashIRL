@@ -24,7 +24,8 @@ namespace NashIRL.Repositories
 	                       h.[Name] AS 'HobbyName'
                     FROM Event e
                     LEFT JOIN UserProfile up ON e.UserProfileId = up.Id
-                    LEFT JOIN Hobby h ON e.HobbyId = h.Id;";
+                    LEFT JOIN Hobby h ON e.HobbyId = h.Id
+                    ORDER BY e.EventOn;";
 
             var events = new List<Event>();
 
