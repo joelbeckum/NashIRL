@@ -9,56 +9,9 @@ using Tabloid.Utils;
 
 namespace NashIRL.Repositories
 {
-    public class UserProfileRepository : IUserProfileRepository
+    public class UserProfileRepository : BaseRepository, IUserProfileRepository
     {
-
-        private readonly IConfiguration _config;
-
-        public UserProfileRepository(IConfiguration config)
-        {
-            _config = config;
-        }
-
-        public SqlConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
-
-        //public UserProfile GetById(int id)
-        //{
-        //    using (SqlConnection conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (SqlCommand cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                            SELECT Id, Email, FirebaseUserId
-        //                            FROM UserProfile
-        //                            WHERE Id = @Id";
-
-        //            cmd.Parameters.AddWithValue("@id", id);
-
-        //            UserProfile userProfile = null;
-
-        //            var reader = cmd.ExecuteReader();
-        //            if (reader.Read())
-        //            {
-        //                userProfile = new UserProfile
-        //                {
-        //                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //                    Email = reader.GetString(reader.GetOrdinal("Email")),
-        //                    FirebaseUserId = reader.GetString(reader.GetOrdinal("FirebaseUserId")),
-        //                };
-        //            }
-        //            reader.Close();
-
-        //            return userProfile;
-        //        }
-        //    }
-        //}
+        public UserProfileRepository(IConfiguration config) : base(config) { }
 
         public UserProfile GetById(int id)
         {
@@ -81,12 +34,12 @@ namespace NashIRL.Repositories
             {
                 userProfile = new UserProfile
                 {
-                    Id = DbUtils.GetInt(reader, "Id"),
+                    Id = DbUtils.GetIntOrZero(reader, "Id"),
                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                     FirstName = DbUtils.GetString(reader, "FirstName"),
                     LastName = DbUtils.GetString(reader, "LastName"),
                     Email = DbUtils.GetString(reader, "Email"),
-                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                    UserTypeId = DbUtils.GetIntOrZero(reader, "UserTypeId"),
                     ImageUrl = DbUtils.GetString(reader, "ImageUrl")
                 };
             }
@@ -94,39 +47,6 @@ namespace NashIRL.Repositories
 
             return userProfile;
         }
-
-        //public UserProfile GetByFirebaseUserId(string firebaseUserId)
-        //{
-        //    using (SqlConnection conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (SqlCommand cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                            SELECT Id, Email, FirebaseUserId
-        //                            FROM UserProfile
-        //                            WHERE FirebaseUserId = @FirebaseuserId";
-
-        //            cmd.Parameters.AddWithValue("@FirebaseUserId", firebaseUserId);
-
-        //            UserProfile userProfile = null;
-
-        //            var reader = cmd.ExecuteReader();
-        //            if (reader.Read())
-        //            {
-        //                userProfile = new UserProfile
-        //                {
-        //                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //                    Email = reader.GetString(reader.GetOrdinal("Email")),
-        //                    FirebaseUserId = reader.GetString(reader.GetOrdinal("FirebaseUserId")),
-        //                };
-        //            }
-        //            reader.Close();
-
-        //            return userProfile;
-        //        }
-        //    }
-        //}
 
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
@@ -149,12 +69,12 @@ namespace NashIRL.Repositories
             {
                 userProfile = new UserProfile
                 {
-                    Id = DbUtils.GetInt(reader, "Id"),
+                    Id = DbUtils.GetIntOrZero(reader, "Id"),
                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                     FirstName = DbUtils.GetString(reader, "FirstName"),
                     LastName = DbUtils.GetString(reader, "LastName"),
                     Email = DbUtils.GetString(reader, "Email"),
-                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                    UserTypeId = DbUtils.GetIntOrZero(reader, "UserTypeId"),
                     ImageUrl = DbUtils.GetString(reader, "ImageUrl")
                 };
             }

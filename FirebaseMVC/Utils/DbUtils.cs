@@ -19,9 +19,14 @@ namespace Tabloid.Utils
 
         //  Get an int from a data reader object
         //  This method assumes the value is not NULL
-        public static int GetInt(SqlDataReader reader, string column)
+        public static int GetIntOrZero(SqlDataReader reader, string column)
         {
-            return reader.GetInt32(reader.GetOrdinal(column));
+            var ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal))
+            {
+                return 0;
+            }
+            return reader.GetInt32(ordinal);
         }
 
         //  Get a DateTime from a data reader object
@@ -29,18 +34,6 @@ namespace Tabloid.Utils
         public static DateTime GetDateTime(SqlDataReader reader, string column)
         {
             return reader.GetDateTime(reader.GetOrdinal(column));
-        }
-
-        //  Get a nullable int from a data reader object
-        public static int? GetNullableInt(SqlDataReader reader, string column)
-        {
-            var ordinal = reader.GetOrdinal(column);
-            if (reader.IsDBNull(ordinal))
-            {
-                return null;
-            }
-
-            return reader.GetInt32(ordinal);
         }
 
         //  Get a nullable DateTime from a data reader object
@@ -53,6 +46,12 @@ namespace Tabloid.Utils
             }
 
             return reader.GetDateTime(ordinal);
+        }
+
+        public static bool GetBool(SqlDataReader reader, string column)
+        {
+            return reader.GetBoolean(reader.GetOrdinal(column));
+
         }
 
         //  Determine if the value a given column is NULL
