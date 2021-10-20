@@ -79,6 +79,9 @@ namespace NashIRL.Auth
             {
                 Email = fbUser.Email,
                 FirebaseUserId = fbUser.FirebaseUserId,
+                FirstName = registration.FirstName,
+                LastName = registration.LastName,
+                UserTypeId = 2
             };
             _userProfileRepository.Add(newUserProfile);
 
