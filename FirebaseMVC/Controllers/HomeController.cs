@@ -11,10 +11,14 @@ namespace NashIRL.Controllers
     public class HomeController : Controller
     {
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IHobbyRepository _hobbyRepository;
+        private readonly IEventRepository _eventRepository;
 
-        public HomeController(IUserProfileRepository userProfileRepository)
+        public HomeController(IUserProfileRepository userProfileRepository, IHobbyRepository hobbyRepository, IEventRepository eventRepository)
         {
             _userProfileRepository = userProfileRepository;
+            _hobbyRepository = hobbyRepository;
+            _eventRepository = eventRepository;
         }
 
         public IActionResult Index()

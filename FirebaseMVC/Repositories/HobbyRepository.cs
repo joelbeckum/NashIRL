@@ -43,7 +43,6 @@ namespace NashIRL.Repositories
         }
 
         // TODO:
-        // - GetAll()
         // - GetById()
         // - Add()
         // - Update()
