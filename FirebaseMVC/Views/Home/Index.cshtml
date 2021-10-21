@@ -19,9 +19,11 @@
     <div class="events-wrapper">
         @foreach (var e in Model.Events)
                 {
-                    <div class="events">
-                        @e.Name
-                    </div>
+        <a href="@Url.Action("Details", "Event", new { id = e.Id})">
+            <div class="event">
+                @e.Name
+            </div>
+        </a>
                 }
     </div>
 </section>

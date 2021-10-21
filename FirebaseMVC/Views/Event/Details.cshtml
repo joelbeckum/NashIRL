@@ -1,0 +1,26 @@
+﻿@model NashIRL.Models.Event
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>@Model.Name</h2>
+<hr />
+<div class="eventDetail-wrapper">
+    @if (Model.ImageUrl != null)
+            {
+                <span class="eventDetail-image">
+                    <img src="@Model.ImageUrl" />
+                </span>
+            }
+    <p class="eventDetail-description">
+        @Model.Description
+    </p>
+    <p class="eventDetail-date">
+        @Model.EventOn.ToShortDateString()
+    </p>
+</div>
+@*<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>*@

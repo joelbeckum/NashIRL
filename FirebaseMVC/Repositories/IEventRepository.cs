@@ -8,5 +8,7 @@ namespace NashIRL.Repositories
         List<Event> GetAll();
 
         List<Event> GetByHobbyId(int hobbyId);
+
+        Event GetById(int id);
     }
 }
