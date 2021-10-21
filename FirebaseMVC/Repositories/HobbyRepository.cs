@@ -29,14 +29,8 @@ namespace NashIRL.Repositories
 
             while (reader.Read())
             {
-                var hobby = new Hobby()
-                {
-                    Id = DbUtils.GetInt(reader, "Id"),
-                    Name = DbUtils.GetString(reader, "Name"),
-                    IsApproved = DbUtils.GetBool(reader, "IsApproved"),
-                    ApprovedBy = DbUtils.GetNullableInt(reader, "ApprovedBy"),
-                    ApprovedOn = DbUtils.GetNullableDateTime(reader, "ApprovedOn")
-                };
+                Hobby hobby = null;
+                hobby = AssignNewHobby(reader, hobby);
                 hobbies.Add(hobby);
             }
             return hobbies;
@@ -61,16 +55,24 @@ namespace NashIRL.Repositories
 
             if (reader.Read())
             {
-                hobby = new Hobby()
-                {
-                    Id = DbUtils.GetInt(reader, "Id"),
-                    Name = DbUtils.GetString(reader, "Name"),
-                    IsApproved = DbUtils.GetBool(reader, "IsApproved"),
-                    ApprovedBy = DbUtils.GetNullableInt(reader, "ApprovedBy"),
-                    ApprovedOn = DbUtils.GetNullableDateTime(reader, "ApprovedOn")
-                };
+                hobby = AssignNewHobby(reader, hobby);
             }
+
             return hobby;
+        }
+
+        private Hobby AssignNewHobby(SqlDataReader reader, Hobby newHobby)
+        {
+            newHobby = new Hobby()
+            {
+                Id = DbUtils.GetInt(reader, "Id"),
+                Name = DbUtils.GetString(reader, "Name"),
+                IsApproved = DbUtils.GetBool(reader, "IsApproved"),
+                ApprovedBy = DbUtils.GetNullableInt(reader, "ApprovedBy"),
+                ApprovedOn = DbUtils.GetNullableDateTime(reader, "ApprovedOn")
+            };
+
+            return newHobby;
         }
 
         // TODO:

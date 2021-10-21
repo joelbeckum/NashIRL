@@ -9,7 +9,7 @@
         @foreach (var h in Model.Hobbies)
             {
                 <div class="hobby">
-                    <a href="@Url.Action("Details", "Hobby", new { id = h.Id})">@h.Name</a>
+                    <a href="@Url.Action("Details", "Hobby", new { id = h.Id })">@h.Name</a>
                 </div>
             }
     </div>
@@ -19,9 +19,11 @@
     <div class="events-wrapper">
         @foreach (var e in Model.Events)
                 {
-                    <div class="events">
-                        @e.Name
-                    </div>
+        <a href="@Url.Action("Details", "Event", new { id = e.Id})">
+            <div class="event">
+                @e.Name
+            </div>
+        </a>
                 }
     </div>
 </section>

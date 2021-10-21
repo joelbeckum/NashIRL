@@ -10,7 +10,7 @@
     @foreach (Event e in Model.Events)
             {
                 <div class="hobbyEvent">
-                    @e.Name - @e.EventOn 
+                    <a href="@Url.Action("Details", "Event", new { id = e.Id })">@e.Name</a> - @e.EventOn.ToShortDateString() 
                 </div>
             }
 </div>

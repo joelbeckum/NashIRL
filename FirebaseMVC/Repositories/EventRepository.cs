@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using NashIRL.Models;
 using System;
 using System.Collections.Generic;
@@ -33,29 +34,8 @@ namespace NashIRL.Repositories
 
             while (reader.Read())
             {
-                var newEvent = new Event()
-                {
-                    Id = DbUtils.GetInt(reader, "Id"),
-                    Name = DbUtils.GetString(reader, "Name"),
-                    Description = DbUtils.GetString(reader, "Description"),
-                    CreatedOn = DbUtils.GetDateTime(reader, "CreatedOn"),
-                    EventOn = DbUtils.GetDateTime(reader, "EventOn"),
-                    ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-                    UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                    HobbyId = DbUtils.GetInt(reader, "HobbyId")
-                };
-                newEvent.UserProfile = new UserProfile()
-                {
-                    Id = DbUtils.GetInt(reader, "UserProfileId"),
-                    FirstName = DbUtils.GetString(reader, "FirstName"),
-                    LastName = DbUtils.GetString(reader, "LastName"),
-                    ImageUrl = DbUtils.GetString(reader, "UserImage")
-                };
-                newEvent.Hobby = new Hobby()
-                {
-                    Id = DbUtils.GetInt(reader, "HobbyId"),
-                    Name = DbUtils.GetString(reader, "HobbyName")
-                };
+                Event newEvent = null;
+                newEvent = AssignNewEvent(reader, newEvent);
 
                 events.Add(newEvent);
             }
@@ -86,33 +66,69 @@ namespace NashIRL.Repositories
 
             while (reader.Read())
             {
-                var newEvent = new Event()
-                {
-                    Id = DbUtils.GetInt(reader, "Id"),
-                    Name = DbUtils.GetString(reader, "Name"),
-                    Description = DbUtils.GetString(reader, "Description"),
-                    CreatedOn = DbUtils.GetDateTime(reader, "CreatedOn"),
-                    EventOn = DbUtils.GetDateTime(reader, "EventOn"),
-                    ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-                    UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                    HobbyId = DbUtils.GetInt(reader, "HobbyId")
-                };
-                newEvent.UserProfile = new UserProfile()
-                {
-                    Id = DbUtils.GetInt(reader, "UserProfileId"),
-                    FirstName = DbUtils.GetString(reader, "FirstName"),
-                    LastName = DbUtils.GetString(reader, "LastName"),
-                    ImageUrl = DbUtils.GetString(reader, "UserImage")
-                };
-                newEvent.Hobby = new Hobby()
-                {
-                    Id = DbUtils.GetInt(reader, "HobbyId"),
-                    Name = DbUtils.GetString(reader, "HobbyName")
-                };
+                Event newEvent = null;
+                newEvent = AssignNewEvent(reader, newEvent);
 
                 events.Add(newEvent);
             }
             return events;
+        }
+
+        public Event GetById(int id)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    SELECT e.Id, e.[Name], e.Description, e.CreatedOn, e.EventOn, e.ImageUrl, e.UserProfileId, e.HobbyId,
+	                       up.FirstName, up.LastName, up.ImageUrl AS 'UserImage',
+                    h.[Name] AS 'HobbyName'
+                    FROM Event e
+                    LEFT JOIN UserProfile up ON e.UserProfileId = up.Id
+                    LEFT JOIN Hobby h ON e.HobbyId = h.Id
+                    WHERE e.Id = @id";
+
+            DbUtils.AddParameter(cmd, "@id", id);
+
+            Event newEvent = null;
+
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                newEvent = AssignNewEvent(reader, newEvent);
+            }
+            return newEvent;
+        }
+
+        private Event AssignNewEvent(SqlDataReader reader, Event newEvent)
+        {
+            newEvent = new Event()
+            {
+                Id = DbUtils.GetInt(reader, "Id"),
+                Name = DbUtils.GetString(reader, "Name"),
+                Description = DbUtils.GetString(reader, "Description"),
+                CreatedOn = DbUtils.GetDateTime(reader, "CreatedOn"),
+                EventOn = DbUtils.GetDateTime(reader, "EventOn"),
+                ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                HobbyId = DbUtils.GetInt(reader, "HobbyId")
+            };
+            newEvent.UserProfile = new UserProfile()
+            {
+                Id = DbUtils.GetInt(reader, "UserProfileId"),
+                FirstName = DbUtils.GetString(reader, "FirstName"),
+                LastName = DbUtils.GetString(reader, "LastName"),
+                ImageUrl = DbUtils.GetString(reader, "UserImage")
+            };
+            newEvent.Hobby = new Hobby()
+            {
+                Id = DbUtils.GetInt(reader, "HobbyId"),
+                Name = DbUtils.GetString(reader, "HobbyName")
+            };
+
+            return newEvent;
         }
 
         // TODO:
