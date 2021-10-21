@@ -3,7 +3,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <h2 class="dislay-4">Your email address is @Model.UserProfile.Email, but you probably knew that.</h2>
-</div>
+<section class="hobbies">
+    <h2 class="hobbies-title">Hobbies</h2>
+    <div class="hobbies-wrapper">
+        @foreach (var h in Model.Hobbies)
+            {
+                <div class="hobby">
+                    @h.Name
+                </div>
+            }
+    </div>
+</section>
+<section class="events">
+    <h2 class="events-title">Upcoming Events</h2>
+    <div class="events-wrapper">
+        @foreach (var e in Model.Events)
+                {
+                    <div class="events">
+                        @e.Name
+                    </div>
+                }
+    </div>
+</section>
