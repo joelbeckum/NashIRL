@@ -9,7 +9,7 @@
         @foreach (var h in Model.Hobbies)
             {
                 <div class="hobby">
-                    @h.Name
+                    <a href="@Url.Action("Details", "Hobby", new { id = h.Id})">@h.Name</a>
                 </div>
             }
     </div>
