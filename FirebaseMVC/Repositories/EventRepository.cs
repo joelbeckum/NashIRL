@@ -102,6 +102,27 @@ namespace NashIRL.Repositories
             return newEvent;
         }
 
+        public void Add(Event newEvent)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    INSERT INTO Event ([Name], Description, CreatedOn, EventOn, ImageUrl, UserProfileId, HobbyId)
+                    OUTPUT INSERTED.Id
+                    VALUES (@name, @description, GETDATE(), @eventOn, @imageUrl, @userProfileId, @hobbyId)";
+
+            DbUtils.AddParameter(cmd, "@name", newEvent.Name);
+            DbUtils.AddParameter(cmd, "@description", newEvent.Description);
+            DbUtils.AddParameter(cmd, "@eventOn", newEvent.EventOn);
+            DbUtils.AddParameter(cmd, "@imageUrl", newEvent.ImageUrl);
+            DbUtils.AddParameter(cmd, "@userProfileId", newEvent.UserProfileId);
+            DbUtils.AddParameter(cmd, "@hobbyId", newEvent.HobbyId);
+
+            newEvent.Id = (int)cmd.ExecuteScalar();
+        }
+
         private Event AssignNewEvent(SqlDataReader reader, Event newEvent)
         {
             newEvent = new Event()
@@ -131,8 +152,8 @@ namespace NashIRL.Repositories
             return newEvent;
         }
 
+
         // TODO:
-        // - GetById()
         // - Add()
         // - Update()
         // - Delete()
