@@ -31,10 +31,10 @@ namespace NashIRL.Repositories
             {
                 var hobby = new Hobby()
                 {
-                    Id = DbUtils.GetIntOrZero(reader, "Id"),
+                    Id = DbUtils.GetInt(reader, "Id"),
                     Name = DbUtils.GetString(reader, "Name"),
                     IsApproved = DbUtils.GetBool(reader, "IsApproved"),
-                    ApprovedBy = DbUtils.GetIntOrZero(reader, "ApprovedBy"),
+                    ApprovedBy = DbUtils.GetNullableInt(reader, "ApprovedBy"),
                     ApprovedOn = DbUtils.GetNullableDateTime(reader, "ApprovedOn")
                 };
                 hobbies.Add(hobby);

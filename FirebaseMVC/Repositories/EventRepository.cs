@@ -35,25 +35,25 @@ namespace NashIRL.Repositories
             {
                 var newEvent = new Event()
                 {
-                    Id = DbUtils.GetIntOrZero(reader, "Id"),
+                    Id = DbUtils.GetInt(reader, "Id"),
                     Name = DbUtils.GetString(reader, "Name"),
                     Description = DbUtils.GetString(reader, "Description"),
                     CreatedOn = DbUtils.GetDateTime(reader, "CreatedOn"),
                     EventOn = DbUtils.GetDateTime(reader, "EventOn"),
                     ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-                    UserProfileId = DbUtils.GetIntOrZero(reader, "UserProfileId"),
-                    HobbyId = DbUtils.GetIntOrZero(reader, "HobbyId")
+                    UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                    HobbyId = DbUtils.GetInt(reader, "HobbyId")
                 };
                 newEvent.UserProfile = new UserProfile()
                 {
-                    Id = DbUtils.GetIntOrZero(reader, "UserProfileId"),
+                    Id = DbUtils.GetInt(reader, "UserProfileId"),
                     FirstName = DbUtils.GetString(reader, "FirstName"),
                     LastName = DbUtils.GetString(reader, "LastName"),
                     ImageUrl = DbUtils.GetString(reader, "UserImage")
                 };
                 newEvent.Hobby = new Hobby()
                 {
-                    Id = DbUtils.GetIntOrZero(reader, "HobbyId"),
+                    Id = DbUtils.GetInt(reader, "HobbyId"),
                     Name = DbUtils.GetString(reader, "HobbyName")
                 };
 

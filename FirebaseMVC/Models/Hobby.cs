@@ -13,7 +13,7 @@ namespace NashIRL.Models
         [Required]
         public bool IsApproved { get; set; }
 
-        public int ApprovedBy { get; set; }
+        public int? ApprovedBy { get; set; }
 
         public DateTime? ApprovedOn { get; set; }
     }

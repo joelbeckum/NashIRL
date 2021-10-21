@@ -34,12 +34,12 @@ namespace NashIRL.Repositories
             {
                 userProfile = new UserProfile
                 {
-                    Id = DbUtils.GetIntOrZero(reader, "Id"),
+                    Id = DbUtils.GetInt(reader, "Id"),
                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                     FirstName = DbUtils.GetString(reader, "FirstName"),
                     LastName = DbUtils.GetString(reader, "LastName"),
                     Email = DbUtils.GetString(reader, "Email"),
-                    UserTypeId = DbUtils.GetIntOrZero(reader, "UserTypeId"),
+                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                     ImageUrl = DbUtils.GetString(reader, "ImageUrl")
                 };
             }
@@ -69,12 +69,12 @@ namespace NashIRL.Repositories
             {
                 userProfile = new UserProfile
                 {
-                    Id = DbUtils.GetIntOrZero(reader, "Id"),
+                    Id = DbUtils.GetInt(reader, "Id"),
                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                     FirstName = DbUtils.GetString(reader, "FirstName"),
                     LastName = DbUtils.GetString(reader, "LastName"),
                     Email = DbUtils.GetString(reader, "Email"),
-                    UserTypeId = DbUtils.GetIntOrZero(reader, "UserTypeId"),
+                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                     ImageUrl = DbUtils.GetString(reader, "ImageUrl")
                 };
             }
