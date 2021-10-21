@@ -6,5 +6,7 @@ namespace NashIRL.Repositories
     public interface IEventRepository
     {
         List<Event> GetAll();
+
+        List<Event> GetByHobbyId(int hobbyId);
     }
 }

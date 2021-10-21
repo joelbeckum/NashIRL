@@ -42,6 +42,37 @@ namespace NashIRL.Repositories
             return hobbies;
         }
 
+        public Hobby GetById(int id)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    SELECT Id, [Name], IsApproved, ApprovedBy, ApprovedOn
+                    FROM Hobby
+                    WHERE Hobby.Id = @id;";
+
+            DbUtils.AddParameter(cmd, "@id", id);
+
+            Hobby hobby = null;
+
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                hobby = new Hobby()
+                {
+                    Id = DbUtils.GetInt(reader, "Id"),
+                    Name = DbUtils.GetString(reader, "Name"),
+                    IsApproved = DbUtils.GetBool(reader, "IsApproved"),
+                    ApprovedBy = DbUtils.GetNullableInt(reader, "ApprovedBy"),
+                    ApprovedOn = DbUtils.GetNullableDateTime(reader, "ApprovedOn")
+                };
+            }
+            return hobby;
+        }
+
         // TODO:
         // - GetById()
         // - Add()

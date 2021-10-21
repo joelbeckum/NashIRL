@@ -1,0 +1,19 @@
+﻿@model NashIRL.Models.ViewModels.HobbyIndexViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>@Model.Hobby.Name</h2>
+
+<div class="hobbyEvent-wrapper">
+    @foreach (Event e in Model.Events)
+            {
+                <div class="hobbyEvent">
+                    @e.Name - @e.EventOn 
+                </div>
+            }
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+</div>
