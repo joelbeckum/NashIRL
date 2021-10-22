@@ -1,0 +1,53 @@
+﻿@model NashIRL.Models.ViewModels.EventFormViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="newEvent.Name" class="control-label"></label>
+                <input asp-for="newEvent.Name" class="form-control" />
+                <span asp-validation-for="newEvent.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="newEvent.Description" class="control-label"></label>
+                <input asp-for="newEvent.Description" class="form-control" />
+                <span asp-validation-for="newEvent.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="newEvent.EventOn" class="control-label"></label>
+                <input asp-for="newEvent.EventOn" class="form-control" />
+                <span asp-validation-for="newEvent.EventOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="newEvent.ImageUrl" class="control-label"></label>
+                <input asp-for="newEvent.ImageUrl" class="form-control" />
+                <span asp-validation-for="newEvent.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="newEvent.HobbyId" class="control-label">Select a Hobby:</label>
+                <select asp-for="newEvent.HobbyId" class="form-control">
+                    @foreach (var hobby in Model.Hobbies)
+                        {
+                            <option value="@hobby.Id">@hobby.Name</option>
+                        }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

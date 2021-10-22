@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NashIRL.Models;
+using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NashIRL.Controllers
@@ -13,10 +16,14 @@ namespace NashIRL.Controllers
     public class EventController : Controller
     {
         private readonly IEventRepository _eventRepository;
+        private readonly IHobbyRepository _hobbyRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public EventController(IEventRepository eventRepository)
+        public EventController(IEventRepository eventRepository, IHobbyRepository hobbyRepository, IUserProfileRepository userProfileRepository)
         {
             _eventRepository = eventRepository;
+            _hobbyRepository = hobbyRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         //// GET: EventController
@@ -25,7 +32,6 @@ namespace NashIRL.Controllers
         //    return View();
         //}
 
-        // GET: EventController/Details/5
         public ActionResult Details(int id)
         {
             var currentEvent = _eventRepository.GetById(id);
@@ -36,24 +42,29 @@ namespace NashIRL.Controllers
             return View(currentEvent);
         }
 
-        // GET: EventController/Create
         public ActionResult Create()
         {
-            return View();
+            var vm = new EventFormViewModel();
+            vm.Hobbies = _hobbyRepository.GetAll();
+
+            return View(vm);
         }
 
-        // POST: EventController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(EventFormViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                vm.newEvent.UserProfileId = GetCurrentUserProfileId();
+
+                _eventRepository.Add(vm.newEvent);
+
+                return RedirectToAction("Details", "Hobby", new { id = vm.newEvent.HobbyId });
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                return View(vm);
             }
         }
 
@@ -97,6 +108,13 @@ namespace NashIRL.Controllers
             {
                 return View();
             }
+        }
+
+        private int GetCurrentUserProfileId()
+        {
+            string idString = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return int.Parse(idString);
         }
     }
 }
