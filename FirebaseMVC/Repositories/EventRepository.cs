@@ -123,6 +123,31 @@ namespace NashIRL.Repositories
             newEvent.Id = (int)cmd.ExecuteScalar();
         }
 
+        public void Update(Event newEvent)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    UPDATE Event
+                    SET Name = @name,
+	                    Description = @description,
+	                    EventOn = @eventOn,
+	                    ImageUrl = @imageUrl,
+	                    HobbyId = @hobbyId
+                    WHERE Event.Id = @id;";
+
+            DbUtils.AddParameter(cmd, "@id", newEvent.Id);
+            DbUtils.AddParameter(cmd, "@name", newEvent.Name);
+            DbUtils.AddParameter(cmd, "@description", newEvent.Description);
+            DbUtils.AddParameter(cmd, "@eventOn", newEvent.EventOn);
+            DbUtils.AddParameter(cmd, "@imageUrl", newEvent.ImageUrl);
+            DbUtils.AddParameter(cmd, "@hobbyId", newEvent.HobbyId);
+
+            cmd.ExecuteNonQuery();
+        }
+
         private Event AssignNewEvent(SqlDataReader reader, Event newEvent)
         {
             newEvent = new Event()
@@ -154,7 +179,6 @@ namespace NashIRL.Repositories
 
 
         // TODO:
-        // - Add()
         // - Update()
         // - Delete()
     }

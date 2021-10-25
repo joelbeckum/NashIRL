@@ -7,6 +7,7 @@ using NashIRL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NashIRL.Controllers
@@ -36,11 +37,13 @@ namespace NashIRL.Controllers
         {
             var hobby = _hobbyRepository.GetById(id);
             var events = _eventRepository.GetByHobbyId(id);
+            var currentUserProfileId = GetCurrentUserProfileId();
 
             var vm = new HobbyIndexViewModel()
             {
                 Hobby = hobby,
-                Events = events
+                Events = events,
+                CurrentUserProfileId = currentUserProfileId
             };
 
             return View(vm);
@@ -107,6 +110,13 @@ namespace NashIRL.Controllers
             {
                 return View();
             }
+        }
+
+        private int GetCurrentUserProfileId()
+        {
+            string idString = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return int.Parse(idString);
         }
     }
 }

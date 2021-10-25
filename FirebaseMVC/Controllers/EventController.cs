@@ -35,11 +35,17 @@ namespace NashIRL.Controllers
         public ActionResult Details(int id)
         {
             var currentEvent = _eventRepository.GetById(id);
+            var currentUserProfileId = GetCurrentUserProfileId();
             if (currentEvent == null)
             {
                 return NotFound();
             }
-            return View(currentEvent);
+            var vm = new EventDetailViewModel()
+            {
+                CurrentEvent = currentEvent,
+                CurrentUserProfileId = currentUserProfileId
+            };
+            return View(vm);
         }
 
         public ActionResult Create()
@@ -56,11 +62,11 @@ namespace NashIRL.Controllers
         {
             try
             {
-                vm.newEvent.UserProfileId = GetCurrentUserProfileId();
+                vm.NewEvent.UserProfileId = GetCurrentUserProfileId();
 
-                _eventRepository.Add(vm.newEvent);
+                _eventRepository.Add(vm.NewEvent);
 
-                return RedirectToAction("Details", "Hobby", new { id = vm.newEvent.HobbyId });
+                return RedirectToAction("Details", "Hobby", new { id = vm.NewEvent.HobbyId });
             }
             catch (Exception)
             {
@@ -68,24 +74,29 @@ namespace NashIRL.Controllers
             }
         }
 
-        // GET: EventController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var vm = new EventFormViewModel()
+            {
+                NewEvent = _eventRepository.GetById(id),
+                Hobbies = _hobbyRepository.GetAll()
+            };
+
+            return View(vm);
         }
 
-        // POST: EventController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, EventFormViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _eventRepository.Update(vm.NewEvent);
+                return RedirectToAction("Details", new { id = vm.NewEvent.Id });
             }
             catch
             {
-                return View();
+                return View(vm);
             }
         }
 

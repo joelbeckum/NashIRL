@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace NashIRL.Models.ViewModels
 {
-    public class EventFormViewModel
+    public class EventDetailViewModel
     {
-        public Event NewEvent { get; set; }
+        public Event CurrentEvent { get; set; }
 
-        public List<Hobby> Hobbies { get; set; }
+        public int CurrentUserProfileId { get; set; }
     }
 }

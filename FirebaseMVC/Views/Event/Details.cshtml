@@ -1,25 +1,30 @@
-﻿@model NashIRL.Models.Event
+﻿@model NashIRL.Models.ViewModels.EventDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>@Model.Name</h2>
+@if (Model.CurrentUserProfileId == Model.CurrentEvent.UserProfileId)
+{
+    <a href="@Url.Action("Edit", new { id = Model.CurrentEvent.Id })">
+        <div class="btn btn-primary">
+            Edit Event
+        </div>
+    </a>
+}
+<h2>@Model.CurrentEvent.Name</h2>
 <hr />
 <div class="eventDetail-wrapper">
-    @if (Model.ImageUrl != null)
-            {
-                <span class="eventDetail-image">
-                    <img src="@Model.ImageUrl" />
-                </span>
-            }
+    @if (Model.CurrentEvent.ImageUrl != null)
+    {
+        <span class="eventDetail-image">
+            <img src="@Model.CurrentEvent.ImageUrl" />
+        </span>
+    }
     <p class="eventDetail-description">
-        @Model.Description
+        @Model.CurrentEvent.Description
     </p>
     <p class="eventDetail-date">
-        @Model.EventOn.ToShortDateString()
+        @Model.CurrentEvent.EventOn.ToShortDateString()
     </p>
 </div>
-@*<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-</div>*@
