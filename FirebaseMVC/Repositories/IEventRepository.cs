@@ -12,5 +12,7 @@ namespace NashIRL.Repositories
         Event GetById(int id);
 
         void Add(Event newEvent);
+
+        void Update(Event newEvent);
     }
 }
