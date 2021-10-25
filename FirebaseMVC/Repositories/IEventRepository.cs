@@ -14,5 +14,7 @@ namespace NashIRL.Repositories
         void Add(Event newEvent);
 
         void Update(Event newEvent);
+
+        void Delete(int id);
     }
 }

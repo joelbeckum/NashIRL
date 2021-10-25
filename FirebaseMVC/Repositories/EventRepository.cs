@@ -177,9 +177,19 @@ namespace NashIRL.Repositories
             return newEvent;
         }
 
+        public void Delete(int id)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
 
-        // TODO:
-        // - Update()
-        // - Delete()
+            cmd.CommandText = @"
+                    DELETE FROM Event
+                    WHERE Event.Id = @id;";
+
+            DbUtils.AddParameter(cmd, "@id", id);
+
+            cmd.ExecuteNonQuery();
+        }
     }
 }

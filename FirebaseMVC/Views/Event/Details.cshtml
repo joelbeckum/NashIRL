@@ -11,6 +11,11 @@
             Edit Event
         </div>
     </a>
+    <a href="@Url.Action("Delete", new { id = Model.CurrentEvent.Id })">
+        <div class="btn btn-primary">
+            Delete Event
+        </div>
+    </a>
 }
 <h2>@Model.CurrentEvent.Name</h2>
 <hr />

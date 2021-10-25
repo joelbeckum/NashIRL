@@ -100,24 +100,31 @@ namespace NashIRL.Controllers
             }
         }
 
-        // GET: EventController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var currentEvent = _eventRepository.GetById(id);
+            if (currentEvent == null)
+            {
+                return NotFound();
+            }
+            return View(currentEvent);
         }
 
-        // POST: EventController/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult ConfirmDelete(int id)
         {
+            var pendingEvent = _eventRepository.GetById(id);
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                var hobbyId = pendingEvent.HobbyId;
+                _eventRepository.Delete(id);
+                return RedirectToAction("Details", "Hobby", new { id = hobbyId });
             }
             catch
             {
-                return View();
+                return View(pendingEvent);
             }
         }
 
