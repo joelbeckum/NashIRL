@@ -33,3 +33,5 @@
         @Model.CurrentEvent.EventOn.ToShortDateString()
     </p>
 </div>
+
+@await Html.PartialAsync("_Comments", Model.Comments)

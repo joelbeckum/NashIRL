@@ -27,6 +27,7 @@ namespace NashIRL
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IHobbyRepository, HobbyRepository>();
             services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
