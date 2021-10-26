@@ -18,12 +18,19 @@ namespace NashIRL.Controllers
         private readonly IEventRepository _eventRepository;
         private readonly IHobbyRepository _hobbyRepository;
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly ICommentRepository _commentRepository;
 
-        public EventController(IEventRepository eventRepository, IHobbyRepository hobbyRepository, IUserProfileRepository userProfileRepository)
+        public EventController(
+            IEventRepository eventRepository, 
+            IHobbyRepository hobbyRepository, 
+            IUserProfileRepository userProfileRepository, 
+            ICommentRepository commentRepository
+        )
         {
             _eventRepository = eventRepository;
             _hobbyRepository = hobbyRepository;
             _userProfileRepository = userProfileRepository;
+            _commentRepository = commentRepository;
         }
 
         //// GET: EventController
@@ -36,6 +43,7 @@ namespace NashIRL.Controllers
         {
             var currentEvent = _eventRepository.GetById(id);
             var currentUserProfileId = GetCurrentUserProfileId();
+            var comments = _commentRepository.GetByEvent(id);
             if (currentEvent == null)
             {
                 return NotFound();
@@ -43,7 +51,8 @@ namespace NashIRL.Controllers
             var vm = new EventDetailViewModel()
             {
                 CurrentEvent = currentEvent,
-                CurrentUserProfileId = currentUserProfileId
+                CurrentUserProfileId = currentUserProfileId,
+                Comments = comments
             };
             return View(vm);
         }

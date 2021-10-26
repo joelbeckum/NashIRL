@@ -148,6 +148,21 @@ namespace NashIRL.Repositories
             cmd.ExecuteNonQuery();
         }
 
+        public void Delete(int id)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    DELETE FROM Event
+                    WHERE Event.Id = @id;";
+
+            DbUtils.AddParameter(cmd, "@id", id);
+
+            cmd.ExecuteNonQuery();
+        }
+
         private Event AssignNewEvent(SqlDataReader reader, Event newEvent)
         {
             newEvent = new Event()
@@ -177,19 +192,5 @@ namespace NashIRL.Repositories
             return newEvent;
         }
 
-        public void Delete(int id)
-        {
-            using var conn = Connection;
-            conn.Open();
-            using var cmd = conn.CreateCommand();
-
-            cmd.CommandText = @"
-                    DELETE FROM Event
-                    WHERE Event.Id = @id;";
-
-            DbUtils.AddParameter(cmd, "@id", id);
-
-            cmd.ExecuteNonQuery();
-        }
     }
 }
