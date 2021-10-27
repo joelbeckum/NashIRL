@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NashIRL.Controllers
 {
+    [Authorize]
     public class CommentController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly ICommentRepository _commentRepository;
@@ -18,49 +21,40 @@ namespace NashIRL.Controllers
             _commentRepository = commentRepository;
         }
 
-        public ActionResult RenderComments(int eventId)
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
+
+        [HttpGet("{id}")]
+        public ActionResult Create(int id)
         {
-            var comments = _commentRepository.GetByEvent(eventId);
-            var vm = new CommentsViewModel()
+            var vm = new CommentFormViewModel()
             {
-                Comments = comments
+                EventId = id
             };
 
-            return PartialView("_Comments", vm);
+            return View(vm);
         }
 
-        //        // GET: CommentController
-        //        public ActionResult Index()
-        //        {
-        //            return View();
-        //        }
+        [HttpPost("{id}")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CommentFormViewModel vm, int id)
+        {
+            try
+            {
+                vm.Comment.UserProfileId = GetCurrentUserProfileId();
+                vm.Comment.EventId = id;
 
-        //        // GET: CommentController/Details/5
-        //        public ActionResult Details(int id)
-        //        {
-        //            return View();
-        //        }
+                _commentRepository.Add(vm.Comment);
 
-        //        // GET: CommentController/Create
-        //        public ActionResult Create()
-        //        {
-        //            return View();
-        //        }
-
-        //        // POST: CommentController/Create
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Create(IFormCollection collection)
-        //        {
-        //            try
-        //            {
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }
+                return RedirectToAction("Details", "Event", new { id = id });
+            }
+            catch (Exception)
+            {
+                return View(vm);
+            }
+        }
 
         //        // GET: CommentController/Edit/5
         //        public ActionResult Edit(int id)
@@ -103,5 +97,11 @@ namespace NashIRL.Controllers
         //                return View();
         //            }
         //        }
+        private int GetCurrentUserProfileId()
+        {
+            string idString = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return int.Parse(idString);
+        }
     }
 }

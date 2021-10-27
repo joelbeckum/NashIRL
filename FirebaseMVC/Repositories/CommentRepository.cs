@@ -43,6 +43,24 @@ namespace NashIRL.Repositories
             return comments;
         }
 
+        public void Add(Comment comment)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    INSERT INTO Comment (Body, UserProfileId, EventId, CreatedOn)
+                    OUTPUT INSERTED.Id
+                    VALUES (@body, @userProfileId, @eventId, GETDATE())";
+
+            DbUtils.AddParameter(cmd, "@body", comment.Body);
+            DbUtils.AddParameter(cmd, "@userProfileId", comment.UserProfileId);
+            DbUtils.AddParameter(cmd, "@eventId", comment.EventId);
+
+            comment.Id = (int)cmd.ExecuteScalar();
+        }
+
         private Comment AssignNewComment(SqlDataReader reader, Comment comment)
         {
             comment = new Comment()
