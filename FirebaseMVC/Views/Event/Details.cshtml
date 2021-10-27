@@ -34,4 +34,20 @@
     </p>
 </div>
 
-@await Html.PartialAsync("_Comments", Model.Comments)
+<section class="comments">
+    <h3 class="comments-title">Comments</h3>
+
+    <div class="comments-wrapper">
+        @foreach (var c in Model.Comments)
+        {
+            <div class="comment">
+                <div class="comment-header">
+                    @c.UserProfile.FirstName said at @c.CreatedOn:
+                </div>
+                <div class="comment-body">
+                    @c.Body
+                </div>
+            </div>
+        }
+    </div>
+</section>
