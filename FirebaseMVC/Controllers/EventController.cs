@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NashIRL.Models;
@@ -19,18 +21,21 @@ namespace NashIRL.Controllers
         private readonly IHobbyRepository _hobbyRepository;
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly ICommentRepository _commentRepository;
+        private Cloudinary _cloudinary;
 
         public EventController(
             IEventRepository eventRepository, 
             IHobbyRepository hobbyRepository, 
             IUserProfileRepository userProfileRepository, 
-            ICommentRepository commentRepository
+            ICommentRepository commentRepository,
+            Cloudinary cloudinary
         )
         {
             _eventRepository = eventRepository;
             _hobbyRepository = hobbyRepository;
             _userProfileRepository = userProfileRepository;
             _commentRepository = commentRepository;
+            _cloudinary = cloudinary;
         }
 
         //// GET: EventController
