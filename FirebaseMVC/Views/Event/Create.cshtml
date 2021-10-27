@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="NewEvent.Name" class="control-label"></label>
@@ -28,11 +28,6 @@
                 <span asp-validation-for="NewEvent.EventOn" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NewEvent.ImageUrl" class="control-label">Image URL (optional)</label>
-                <input asp-for="NewEvent.ImageUrl" class="form-control" />
-                <span asp-validation-for="NewEvent.ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="NewEvent.HobbyId" class="control-label">Select a Hobby:</label>
                 <select asp-for="NewEvent.HobbyId" class="form-control">
                     @foreach (var hobby in Model.Hobbies)
@@ -40,6 +35,9 @@
                             <option value="@hobby.Id">@hobby.Name</option>
                         }
                 </select>
+            </div>
+            <div class="form-group">
+                <input type="file" name="Image" asp-for="Image" multiple accept="image/jpeg, image/jpg, image.png" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

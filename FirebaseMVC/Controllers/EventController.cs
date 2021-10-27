@@ -38,12 +38,6 @@ namespace NashIRL.Controllers
             _cloudinary = cloudinary;
         }
 
-        //// GET: EventController
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public ActionResult Details(int id)
         {
             var currentEvent = _eventRepository.GetById(id);
@@ -77,6 +71,18 @@ namespace NashIRL.Controllers
             try
             {
                 vm.NewEvent.UserProfileId = GetCurrentUserProfileId();
+
+                if (vm.Image != null)
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(vm.Image.FileName, vm.Image.OpenReadStream()),
+                        PublicId = $"{vm.NewEvent.Name}"
+                    };
+                    var uploadResult = _cloudinary.Upload(uploadParams);
+
+                    vm.NewEvent.ImageUrl = uploadResult.SecureUrl.ToString();
+                }
 
                 _eventRepository.Add(vm.NewEvent);
 
