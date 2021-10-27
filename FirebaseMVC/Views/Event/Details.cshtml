@@ -37,6 +37,8 @@
 <section class="comments">
     <h3 class="comments-title">Comments</h3>
 
+    <a class="btn btn-primary" href="@Url.Action("Create", "Comment", new { id = Model.CurrentEvent.Id })">Add Comment</a>
+
     <div class="comments-wrapper">
         @foreach (var c in Model.Comments)
         {

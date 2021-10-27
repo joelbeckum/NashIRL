@@ -6,5 +6,7 @@ namespace NashIRL.Repositories
     public interface ICommentRepository
     {
         List<Comment> GetByEvent(int eventId);
+
+        void Add(Comment comment);
     }
 }
