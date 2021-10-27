@@ -77,7 +77,7 @@ namespace NashIRL.Controllers
                     var uploadParams = new ImageUploadParams()
                     {
                         File = new FileDescription(vm.Image.FileName, vm.Image.OpenReadStream()),
-                        PublicId = $"{vm.NewEvent.Name}"
+                        PublicId = $"{vm.NewEvent.Id}"
                     };
                     var uploadResult = _cloudinary.Upload(uploadParams);
 
@@ -111,6 +111,18 @@ namespace NashIRL.Controllers
         {
             try
             {
+                if (vm.Image != null)
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(vm.Image.FileName, vm.Image.OpenReadStream()),
+                        PublicId = $"{vm.NewEvent.Id}"
+                    };
+                    var uploadResult = _cloudinary.Upload(uploadParams);
+
+                    vm.NewEvent.ImageUrl = uploadResult.SecureUrl.ToString();
+                }
+
                 _eventRepository.Update(vm.NewEvent);
                 return RedirectToAction("Details", new { id = vm.NewEvent.Id });
             }
