@@ -43,6 +43,33 @@ namespace NashIRL.Repositories
             return comments;
         }
 
+        public Comment GetById(int id)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    SELECT c.Id, c.Body, c.UserProfileId, c.EventId, c.CreatedOn,
+	                       up.FirstName, up.LastName, up.Email, up.ImageUrl
+                    FROM Comment c
+                    LEFT JOIN UserProfile up ON c.UserProfileId = up.Id
+                    WHERE c.Id = @id";
+
+            DbUtils.AddParameter(cmd, "@id", id);
+
+            Comment comment = null;
+
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                comment = AssignNewComment(reader, comment);
+            }
+
+            return comment;
+        }
+
         public void Add(Comment comment)
         {
             using var conn = Connection;
@@ -59,6 +86,23 @@ namespace NashIRL.Repositories
             DbUtils.AddParameter(cmd, "@eventId", comment.EventId);
 
             comment.Id = (int)cmd.ExecuteScalar();
+        }
+
+        public void Update(Comment comment)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    UPDATE Comment
+                    SET Body = @body
+                    WHERE Comment.Id = @id;";
+
+            DbUtils.AddParameter(cmd, "@id", comment.Id);
+            DbUtils.AddParameter(cmd, "@body", comment.Body);
+
+            cmd.ExecuteNonQuery();
         }
 
         private Comment AssignNewComment(SqlDataReader reader, Comment comment)

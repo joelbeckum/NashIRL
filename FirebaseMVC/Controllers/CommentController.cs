@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NashIRL.Models;
 using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
@@ -20,11 +21,6 @@ namespace NashIRL.Controllers
         {
             _commentRepository = commentRepository;
         }
-
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
 
         [HttpGet("{id}")]
         public ActionResult Create(int id)
@@ -56,26 +52,28 @@ namespace NashIRL.Controllers
             }
         }
 
-        //        // GET: CommentController/Edit/5
-        //        public ActionResult Edit(int id)
-        //        {
-        //            return View();
-        //        }
+        public ActionResult Edit(int id)
+        {
+            var comment = _commentRepository.GetById(id);
 
-        //        // POST: CommentController/Edit/5
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Edit(int id, IFormCollection collection)
-        //        {
-        //            try
-        //            {
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }
+            return View(comment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, Comment comment)
+        {
+            try
+            {
+                _commentRepository.Update(comment);
+
+                return RedirectToAction("Details", "Event", new { id = comment.EventId });
+            }
+            catch (Exception)
+            {
+                return View(comment);
+            }
+        }
 
         //        // GET: CommentController/Delete/5
         //        public ActionResult Delete(int id)
