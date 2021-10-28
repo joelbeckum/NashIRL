@@ -75,26 +75,35 @@ namespace NashIRL.Controllers
             }
         }
 
-        //        // GET: CommentController/Delete/5
-        //        public ActionResult Delete(int id)
-        //        {
-        //            return View();
-        //        }
+        public ActionResult Delete(int id)
+        {
+            var comment = _commentRepository.GetById(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
 
-        //        // POST: CommentController/Delete/5
-        //        [HttpPost]
-        //        [ValidateAntiForgeryToken]
-        //        public ActionResult Delete(int id, IFormCollection collection)
-        //        {
-        //            try
-        //            {
-        //                return RedirectToAction(nameof(Index));
-        //            }
-        //            catch
-        //            {
-        //                return View();
-        //            }
-        //        }
+            return View(comment);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmDelete(int id)
+        {
+            var comment = _commentRepository.GetById(id);
+
+            try
+            {
+                var eventId = comment.EventId;
+                _commentRepository.Delete(id);
+                return RedirectToAction("Details", "Event", new { id = eventId });
+            }
+            catch
+            {
+                return View(comment);
+            }
+        }
+
         private int GetCurrentUserProfileId()
         {
             string idString = User.FindFirst(ClaimTypes.NameIdentifier).Value;

@@ -12,5 +12,7 @@ namespace NashIRL.Repositories
         void Add(Comment comment);
 
         void Update(Comment comment);
+
+        void Delete(int id);
     }
 }

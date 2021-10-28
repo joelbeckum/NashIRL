@@ -105,6 +105,21 @@ namespace NashIRL.Repositories
             cmd.ExecuteNonQuery();
         }
 
+        public void Delete(int id)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    DELETE FROM Comment
+                    WHERE Comment.Id = @id";
+
+            DbUtils.AddParameter(cmd, "@id", id);
+
+            cmd.ExecuteNonQuery();
+        }
+
         private Comment AssignNewComment(SqlDataReader reader, Comment comment)
         {
             comment = new Comment()
