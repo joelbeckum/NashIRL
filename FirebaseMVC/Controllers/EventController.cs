@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NashIRL.Models;
@@ -19,25 +21,22 @@ namespace NashIRL.Controllers
         private readonly IHobbyRepository _hobbyRepository;
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly ICommentRepository _commentRepository;
+        private Cloudinary _cloudinary;
 
         public EventController(
             IEventRepository eventRepository, 
             IHobbyRepository hobbyRepository, 
             IUserProfileRepository userProfileRepository, 
-            ICommentRepository commentRepository
+            ICommentRepository commentRepository,
+            Cloudinary cloudinary
         )
         {
             _eventRepository = eventRepository;
             _hobbyRepository = hobbyRepository;
             _userProfileRepository = userProfileRepository;
             _commentRepository = commentRepository;
+            _cloudinary = cloudinary;
         }
-
-        //// GET: EventController
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
 
         public ActionResult Details(int id)
         {
@@ -73,6 +72,18 @@ namespace NashIRL.Controllers
             {
                 vm.NewEvent.UserProfileId = GetCurrentUserProfileId();
 
+                if (vm.Image != null)
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(vm.Image.FileName, vm.Image.OpenReadStream()),
+                        PublicId = $"{vm.NewEvent.Id}"
+                    };
+                    var uploadResult = _cloudinary.Upload(uploadParams);
+
+                    vm.NewEvent.ImageUrl = uploadResult.SecureUrl.ToString();
+                }
+
                 _eventRepository.Add(vm.NewEvent);
 
                 return RedirectToAction("Details", "Hobby", new { id = vm.NewEvent.HobbyId });
@@ -100,6 +111,18 @@ namespace NashIRL.Controllers
         {
             try
             {
+                if (vm.Image != null)
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(vm.Image.FileName, vm.Image.OpenReadStream()),
+                        PublicId = $"{vm.NewEvent.Id}"
+                    };
+                    var uploadResult = _cloudinary.Upload(uploadParams);
+
+                    vm.NewEvent.ImageUrl = uploadResult.SecureUrl.ToString();
+                }
+
                 _eventRepository.Update(vm.NewEvent);
                 return RedirectToAction("Details", new { id = vm.NewEvent.Id });
             }
