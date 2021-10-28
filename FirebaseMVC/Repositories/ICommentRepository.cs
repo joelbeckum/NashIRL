@@ -7,6 +7,10 @@ namespace NashIRL.Repositories
     {
         List<Comment> GetByEvent(int eventId);
 
+        Comment GetById(int id);
+
         void Add(Comment comment);
+
+        void Update(Comment comment);
     }
 }

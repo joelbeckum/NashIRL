@@ -49,6 +49,12 @@
                 <div class="comment-body">
                     @c.Body
                 </div>
+                @if (c.UserProfileId == Model.CurrentUserProfileId)
+                {
+                    <div class="comment-buttons">
+                        <a class="btn" href="@Url.Action("Edit", "Comment", new { id = c.Id })">Edit</a><a class="btn" href="">Delete</a>
+                    </div>
+                }
             </div>
         }
     </div>
