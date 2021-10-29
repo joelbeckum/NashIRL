@@ -101,6 +101,10 @@ namespace NashIRL.Controllers
                 NewEvent = _eventRepository.GetById(id),
                 Hobbies = _hobbyRepository.GetAll()
             };
+            if (vm.NewEvent.UserProfileId != GetCurrentUserProfileId())
+            {
+                return Unauthorized();
+            }
 
             return View(vm);
         }
