@@ -8,13 +8,26 @@
 
 <a class="btn btn-primary" asp-controller="Event" asp-action="Create">Create New Event</a>
 
-<div class="hobbyEvent-wrapper">
-    @foreach (Event e in Model.Events)
+<div class="events">
+    <div class="events-wrapper">
+        <div class="events-line"></div>
+        <ul class="events-list">
+            @foreach (var e in Model.Events)
             {
-                <div class="hobbyEvent">
-                    <a href="@Url.Action("Details", "Event", new { id = e.Id })">@e.Name</a> - @e.EventOn.ToShortDateString() 
-                </div>
-                <br />
+                <li class="event">
+                    <div class="event-top d-flex text-center">
+                        <div class="event-circle">@e.EventOn.Month/@e.EventOn.Day</div>
+                        <div class="event-title">
+                            <a href="@Url.Action("Details", "Event", new { id = e.Id })">@e.Name</a>
+                        </div>
+                    </div>
+                    <div class="event-desc">
+                        <p>@string.Format("{0:h:mm tt}", e.EventOn)</p>
+                        <p>@e.Description</p>
+                    </div>
+                </li>
             }
+        </ul>
+    </div>
 </div>
 

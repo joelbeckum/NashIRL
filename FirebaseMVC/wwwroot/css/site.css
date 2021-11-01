@@ -1,6 +1,28 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+body,
+button,
+input,
+select,
+textarea {
+    color: white;
+    font-family: "Courier", sans-serif;
+    font-size: 16px;
+    line-height: 1;
+    background-color: #1d1e22;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: white;
+    font-family: Consolas, sans-serif;
+    line-height: 1;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -13,15 +35,121 @@ a {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #1d1e22;
+    background-color: #feda6a;
+    border-color: #feda6a;
 }
+
+    .btn-primary:hover {
+        background-color: #d4d4dc;
+        border-color: #d4d4dc;
+        color: #1d1e22;
+    }
+
+.navbar {
+    color: #1d1e22;
+    background-color: #d4d4dc;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+
+
+.navbar-brand {
+    color: #1d1e22;
+    font-size: 30px;
+}
+
+
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+/* -- Homepage styling -- */
+.hobbies-wrapper {
+    background-color: rgba(212, 212, 220, 0.25);
+    min-height: 400px;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.hobby {
+    color: #1d1e22;
+
+}
+
+/* -- Event Timeline -- */
+.events-wrapper {
+    position: relative;
+    margin-top: 25px;
+}
+
+.events-line {
+    border-right: 2px solid #feda6a;
+    left: 30px;
+    position: absolute;
+    top: 0px;
+    height: 100%;
+}
+
+.events-list {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.event {
+    margin-bottom: 25px;
+}
+
+.event-top {
+    color: #1d1e22;
+    font-weight: 600;
+    background-color: rgba(254, 218, 106, 0.5);
+    border-radius: 9999px;
+}
+
+.event-circle {
+    background-color: #feda6a;
+    border: 2px solid #1d1e22;
+    border-radius: 9999px;
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.event-title {
+    font-weight: 600;
+    font-size: 20px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.event-title a {
+    text-decoration: none;
+    color: inherit;
+    transition: all ease-in-out 0.15s;
+}
+
+.event-title a:hover {
+    color: white;
+}
+
+.event-desc {
+    margin-left: 48px;
+    text-align: center;
+}
+
+.event-desc p {
+    margin: 25px 0;
 }
 
 /* Sticky footer styles

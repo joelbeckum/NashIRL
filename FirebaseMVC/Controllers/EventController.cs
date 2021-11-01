@@ -119,7 +119,7 @@ namespace NashIRL.Controllers
                 {
                     var uploadParams = new ImageUploadParams()
                     {
-                        File = new FileDescription(vm.Image.FileName, vm.Image.OpenReadStream()),
+                        File = new FileDescription(vm.NewEvent.Name, vm.Image.OpenReadStream()),
                         PublicId = $"{vm.NewEvent.Id}"
                     };
                     var uploadResult = _cloudinary.Upload(uploadParams);
