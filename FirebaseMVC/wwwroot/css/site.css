@@ -38,6 +38,7 @@ a {
     color: #1d1e22;
     background-color: #feda6a;
     border-color: #feda6a;
+    font-weight: 600;
 }
 
     .btn-primary:hover {
@@ -58,9 +59,12 @@ a {
 .navbar-brand {
     color: #1d1e22;
     font-size: 30px;
+    transition: all ease-in-out 0.15s;
 }
 
-
+.navbar-brand:hover {
+    color: white;
+}
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
@@ -150,6 +154,47 @@ a {
 
 .event-desc p {
     margin: 25px 0;
+}
+
+/* -- Event Detail styling -- */
+.eventDetail-desc {
+    line-height: 1.25;
+}
+
+.comment {
+    color: #1d1e22;
+    background-color: #d4d4dc;
+    border-radius: 0.25rem;
+}
+
+.comment-header {
+    font-weight: 700;
+}
+
+.comment-buttons {
+    font-size: 20px;
+}
+
+.comment a {
+    text-decoration: none;
+    color: inherit;
+    margin-left: 25px;
+    transition: all ease-in-out 0.15s;
+}
+
+.comment a:hover {
+    color: white;
+}
+
+/* -- Comment Form Styling -- */
+.comment-cancel a {
+    text-decoration: none;
+    color: inherit;
+    transition: all ease-in-out 0.15s;
+}
+
+.comment-cancel a:hover {
+    color: #feda6a;
 }
 
 /* Sticky footer styles
