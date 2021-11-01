@@ -17,43 +17,49 @@
         </div>
     </a>
 }
-<h2>@Model.CurrentEvent.Name</h2>
 <hr />
-<div class="eventDetail-wrapper">
+<div class="row mb-5">
+    <div class="eventDetail-wrapper col-md-5">
+        <h2 class="text-center mb-5">@Model.CurrentEvent.Name</h2>
+        <h5 class="eventDetail-date text-center mb-5">
+            @Model.CurrentEvent.EventOn.ToShortDateString() at @string.Format("{0:h:mm tt}", Model.CurrentEvent.EventOn)
+        </h5>
+        <p class="eventDetail-desc">
+            @Model.CurrentEvent.Description
+        </p>
+    </div>
     @if (Model.CurrentEvent.ImageUrl != null)
     {
-        <span class="eventDetail-image">
+        <span class="eventDetail-image col-md-7 align-middle text-center">
             <img src="@Model.CurrentEvent.ImageUrl" />
         </span>
     }
-    <p class="eventDetail-description">
-        @Model.CurrentEvent.Description
-    </p>
-    <p class="eventDetail-date">
-        @Model.CurrentEvent.EventOn.ToShortDateString()
-    </p>
 </div>
 
 <section class="comments">
-    <h3 class="comments-title">Comments</h3>
+    <h3 class="comments-title mb-3">Comments</h3>
 
-    <a class="btn btn-primary" href="@Url.Action("Create", "Comment", new { id = Model.CurrentEvent.Id })">Add Comment</a>
+    <a class="btn btn-primary mb-3" href="@Url.Action("Create", "Comment", new { id = Model.CurrentEvent.Id })">Add Comment</a>
 
     <div class="comments-wrapper">
         @foreach (var c in Model.Comments)
         {
-            <div class="comment">
-                <div class="comment-header">
-                    @c.UserProfile.FirstName said at @c.CreatedOn:
+            <div class="comment mb-3 p-3">
+                <div class="comment-header mb-2">
+                    @c.UserProfile.FirstName @c.UserProfile.LastName said at @string.Format("{0:h:mm tt}", c.CreatedOn), @c.CreatedOn.ToShortDateString():
                 </div>
-                <div class="comment-body">
+                <div class="comment-body mb-">
                     @c.Body
                 </div>
                 @if (c.UserProfileId == Model.CurrentUserProfileId)
                 {
-                    <div class="comment-buttons">
-                        <a class="btn" href="@Url.Action("Edit", "Comment", new { id = c.Id })">Edit</a>
-                        <a class="btn" href="@Url.Action("Delete", "Comment", new { id = c.Id })">Delete</a>
+                    <div class="comment-buttons d-flex justify-content-end">
+                        <a href="@Url.Action("Edit", "Comment", new { id = c.Id })">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <a href="@Url.Action("Delete", "Comment", new { id = c.Id })">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
                     </div>
                 }
             </div>

@@ -3,27 +3,39 @@
     ViewData["Title"] = "Home Page";
 }
 
-<section class="hobbies">
-    <h2 class="hobbies-title">Hobbies</h2>
-    <div class="hobbies-wrapper">
-        @foreach (var h in Model.Hobbies)
+<div class="row">
+    <section class="hobbies col-md-6 text-center">
+        <h2 class="hobbies-title">Hobbies</h2>
+        <div class="hobbies-wrapper d-flex flex-wrap">
+            @foreach (var h in Model.Hobbies)
             {
-                <div class="hobby">
-                    <a href="@Url.Action("Details", "Hobby", new { id = h.Id })">@h.Name</a>
+                <div class="hobby col-md-4 text-center">
+                    <a class="btn btn-primary" href="@Url.Action("Details", "Hobby", new { id = h.Id })">@h.Name</a>
                 </div>
             }
-    </div>
-</section>
-<section class="events">
-    <h2 class="events-title">Upcoming Events</h2>
-    <div class="events-wrapper">
-        @foreach (var e in Model.Events)
+        </div>
+    </section>
+    <section class="events col-md-6">
+        <h2 class="events-title text-center">Upcoming Events</h2>
+        <div class="events-wrapper">
+            <div class="events-line"></div>
+            <ul class="events-list">
+                @foreach (var e in Model.Events)
                 {
-        <a href="@Url.Action("Details", "Event", new { id = e.Id})">
-            <div class="event">
-                @e.Name
-            </div>
-        </a>
+                    <li class="event">
+                        <div class="event-top d-flex text-center">
+                            <div class="event-circle">@e.EventOn.Month/@e.EventOn.Day</div>
+                            <div class="event-title">
+                                <a href="@Url.Action("Details", "Event", new { id = e.Id })">@e.Name</a>
+                            </div>
+                        </div>
+                        <div class="event-desc">
+                            <p>@string.Format("{0:h:mm tt}", e.EventOn)</p>
+                            <p>@e.Description</p>
+                        </div>
+                    </li>
                 }
-    </div>
-</section>
+            </ul>
+        </div>
+    </section>
+</div>
