@@ -32,6 +32,6 @@ Initial layout design for Nash_IRL:
 
 [Wireframe designed in Miro](https://miro.com/app/board/o9J_lpwXapY=/)
 
-##Acknowledgements
+## Acknowledgements
 
 This app would not have been possible without the incredible instructors and staff at [Nashville Software School](https://nashvillesoftwareschool.com/). I have never failed to be impressed by their tireless efforts to make us better developers, or moved by their unfailing generosity to me during my time at this school. Special thanks to Josh Barton, my mentor, scrum leader, sounding board, and friend for this capstone. 
