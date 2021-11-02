@@ -5,6 +5,9 @@ using NashIRL.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using NashIRL.Repositories;
+using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace NashIRL.Controllers
 {
@@ -26,7 +29,7 @@ namespace NashIRL.Controllers
         {
             var currentUserProfile = _userProfileRepository.GetById(GetCurrentUserProfileId());
             var hobbies = _hobbyRepository.GetAll();
-            var events = _eventRepository.GetAll();
+            var events = _eventRepository.GetAll().Where(e => e.EventOn > DateTime.Now).ToList();
 
             var vm = new HomeViewModel()
             {

@@ -22,7 +22,7 @@ namespace NashIRL.Controllers
             _commentRepository = commentRepository;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/Comment/Create/{id}")]
         public ActionResult Create(int id)
         {
             var vm = new CommentFormViewModel()

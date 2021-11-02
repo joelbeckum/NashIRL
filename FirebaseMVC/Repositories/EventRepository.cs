@@ -26,7 +26,7 @@ namespace NashIRL.Repositories
                     FROM Event e
                     LEFT JOIN UserProfile up ON e.UserProfileId = up.Id
                     LEFT JOIN Hobby h ON e.HobbyId = h.Id
-                    ORDER BY e.EventOn DESC;";
+                    ORDER BY e.EventOn;";
 
             var events = new List<Event>();
 
@@ -56,7 +56,7 @@ namespace NashIRL.Repositories
                     LEFT JOIN UserProfile up ON e.UserProfileId = up.Id
                     LEFT JOIN Hobby h ON e.HobbyId = h.Id
                     WHERE e.HobbyId = @hobbyId
-                    ORDER BY e.EventOn DESC";
+                    ORDER BY e.EventOn";
 
             DbUtils.AddParameter(cmd, "@hobbyId", hobbyId);
 

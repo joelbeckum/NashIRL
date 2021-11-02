@@ -28,7 +28,9 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a class="btn btn-primary" href="@Url.Action("Details", "Event", new { id = Model.EventId })">Cancel</a>
+        <input type="submit" value="Delete" class="btn btn-danger mb-4" />
+        <div class="cancel">
+            <a href="@Url.Action("Details", "Event", new { id = Model.EventId })">Cancel</a>
+        </div>
     </form>
 </div>

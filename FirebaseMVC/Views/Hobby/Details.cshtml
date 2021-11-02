@@ -6,7 +6,7 @@
 
 <h2 class="mb-4">@Model.Hobby.Name</h2>
 
-<a class="btn btn-primary" asp-controller="Event" asp-action="Create">Create New Event</a>
+<a class="btn btn-primary" href="@Url.Action("Create", "Event", new { id = Model.Hobby.Id})">Create New Event</a>
 
 <div class="events">
     <div class="events-wrapper">
