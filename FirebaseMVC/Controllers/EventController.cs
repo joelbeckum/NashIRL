@@ -56,9 +56,11 @@ namespace NashIRL.Controllers
             return View(vm);
         }
 
-        public ActionResult Create()
+        [HttpGet("/Event/Create/{id}")]
+        public ActionResult Create(int id)
         {
             var vm = new EventFormViewModel();
+            vm.HobbyNavId = id;
             vm.Hobbies = _hobbyRepository.GetAll();
 
             return View(vm);
@@ -66,7 +68,7 @@ namespace NashIRL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EventFormViewModel vm)
+        public ActionResult Create(EventFormViewModel vm, int id)
         {
             try
             {
@@ -76,7 +78,7 @@ namespace NashIRL.Controllers
                 {
                     var uploadParams = new ImageUploadParams()
                     {
-                        File = new FileDescription(vm.Image.FileName, vm.Image.OpenReadStream()),
+                        File = new FileDescription(vm.NewEvent.Id.ToString(), vm.Image.OpenReadStream()),
                         PublicId = $"{vm.NewEvent.Id}"
                     };
                     var uploadResult = _cloudinary.Upload(uploadParams);
@@ -119,7 +121,7 @@ namespace NashIRL.Controllers
                 {
                     var uploadParams = new ImageUploadParams()
                     {
-                        File = new FileDescription(vm.NewEvent.Name, vm.Image.OpenReadStream()),
+                        File = new FileDescription(vm.NewEvent.Id.ToString(), vm.Image.OpenReadStream()),
                         PublicId = $"{vm.NewEvent.Id}"
                     };
                     var uploadResult = _cloudinary.Upload(uploadParams);

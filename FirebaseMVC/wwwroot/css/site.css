@@ -85,6 +85,7 @@ a {
 /* -- Homepage styling -- */
 .hobbies-wrapper {
     background-color: rgba(212, 212, 220, 0.25);
+    border-radius: 0.25rem;
     min-height: 400px;
     padding: 25px;
     margin-top: 25px;
@@ -171,6 +172,10 @@ a {
     line-height: 1.25;
 }
 
+.eventDetail-image img {
+    border-radius: 0.25rem;
+}
+
 .comment {
     color: #1d1e22;
     background-color: #d4d4dc;
@@ -196,14 +201,25 @@ a {
     color: white;
 }
 
-/* -- Comment Form Styling -- */
-.comment-cancel a {
+/* -- Event Form Styling -- */
+.event-cancel a {
     text-decoration: none;
     color: inherit;
     transition: all ease-in-out 0.15s;
 }
 
-.comment-cancel a:hover {
+.event-cancel a:hover {
+    color: #feda6a;
+}
+
+/* -- Cancel Link for All Forms -- */
+.cancel a {
+    text-decoration: none;
+    color: inherit;
+    transition: all ease-in-out 0.15s;
+}
+
+.cancel a:hover {
     color: #feda6a;
 }
 

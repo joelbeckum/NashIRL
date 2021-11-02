@@ -46,10 +46,10 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Delete" class="btn btn-danger mb-4" />
         <a href="@Url.Action("Details", new { id = Model.Id })">
-            <div class="btn btn-primary">
-                Cancel
+            <div class="cancel">
+                <a href="@Url.Action("Details", "Event", new { id = Model.Id })">Cancel</a>
             </div>
         </a>
     </form>

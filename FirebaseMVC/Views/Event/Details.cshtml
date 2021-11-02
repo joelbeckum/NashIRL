@@ -20,7 +20,8 @@
 <hr />
 <div class="row mb-5">
     <div class="eventDetail-wrapper col-md-5">
-        <h2 class="text-center mb-5">@Model.CurrentEvent.Name</h2>
+        <h2 class="text-center mb-4">@Model.CurrentEvent.Name</h2>
+        <div class="eventDetail-creator text-center mb-5"> Created by @Model.CurrentEvent.UserProfile.FirstName @Model.CurrentEvent.UserProfile.LastName</div>
         <h5 class="eventDetail-date text-center mb-5">
             @Model.CurrentEvent.EventOn.ToShortDateString() at @string.Format("{0:h:mm tt}", Model.CurrentEvent.EventOn)
         </h5>

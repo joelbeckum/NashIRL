@@ -12,6 +12,8 @@ namespace NashIRL.Models.ViewModels
 
         public List<Hobby> Hobbies { get; set; }
 
+        public int HobbyNavId { get; set; }
+
         public IFormFile Image { get; set; }
     }
 }
