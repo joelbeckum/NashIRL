@@ -1,19 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NashIRL.Models;
 using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace NashIRL.Controllers
 {
     [Authorize]
-    public class HobbyController : Controller
+    public class HobbyController : BaseController
     {
         private readonly IHobbyRepository _hobbyRepository;
         private readonly IEventRepository _eventRepository;
@@ -117,13 +113,6 @@ namespace NashIRL.Controllers
             {
                 return View();
             }
-        }
-
-        private int GetCurrentUserProfileId()
-        {
-            string idString = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            return int.Parse(idString);
         }
     }
 }

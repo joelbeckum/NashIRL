@@ -1,5 +1,3 @@
-using System;
-
 namespace NashIRL.Models
 {
     public class ErrorViewModel

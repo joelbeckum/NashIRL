@@ -1,10 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using NashIRL.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Tabloid.Utils;
 
 namespace NashIRL.Repositories
@@ -35,7 +32,7 @@ namespace NashIRL.Repositories
             while (reader.Read())
             {
                 Event newEvent = null;
-                newEvent = AssignNewEvent(reader, newEvent);
+                newEvent = AssembleEvent(reader, newEvent);
 
                 events.Add(newEvent);
             }
@@ -67,7 +64,7 @@ namespace NashIRL.Repositories
             while (reader.Read())
             {
                 Event newEvent = null;
-                newEvent = AssignNewEvent(reader, newEvent);
+                newEvent = AssembleEvent(reader, newEvent);
 
                 events.Add(newEvent);
             }
@@ -97,7 +94,7 @@ namespace NashIRL.Repositories
 
             if (reader.Read())
             {
-                newEvent = AssignNewEvent(reader, newEvent);
+                newEvent = AssembleEvent(reader, newEvent);
             }
             return newEvent;
         }
@@ -163,7 +160,7 @@ namespace NashIRL.Repositories
             cmd.ExecuteNonQuery();
         }
 
-        private Event AssignNewEvent(SqlDataReader reader, Event newEvent)
+        private Event AssembleEvent(SqlDataReader reader, Event newEvent)
         {
             newEvent = new Event()
             {

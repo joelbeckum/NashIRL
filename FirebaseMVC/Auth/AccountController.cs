@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using NashIRL.Auth.Models;
 using NashIRL.Repositories;
 using NashIRL.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace NashIRL.Auth
 {

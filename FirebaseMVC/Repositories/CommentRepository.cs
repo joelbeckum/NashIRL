@@ -1,10 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using NashIRL.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Tabloid.Utils;
 
 namespace NashIRL.Repositories
@@ -35,7 +32,7 @@ namespace NashIRL.Repositories
             while (reader.Read())
             {
                 Comment comment = null;
-                comment = AssignNewComment(reader, comment);
+                comment = AssembleComment(reader, comment);
 
                 comments.Add(comment);
             }
@@ -64,7 +61,7 @@ namespace NashIRL.Repositories
 
             if (reader.Read())
             {
-                comment = AssignNewComment(reader, comment);
+                comment = AssembleComment(reader, comment);
             }
 
             return comment;
@@ -120,7 +117,7 @@ namespace NashIRL.Repositories
             cmd.ExecuteNonQuery();
         }
 
-        private Comment AssignNewComment(SqlDataReader reader, Comment comment)
+        private Comment AssembleComment(SqlDataReader reader, Comment comment)
         {
             comment = new Comment()
             {

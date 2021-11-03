@@ -3,16 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using NashIRL.Models;
 using NashIRL.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using NashIRL.Repositories;
 using System.Linq;
 using System;
-using System.Collections.Generic;
 
 namespace NashIRL.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IHobbyRepository _hobbyRepository;
@@ -50,11 +48,6 @@ namespace NashIRL.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        private int GetCurrentUserProfileId()
-        {
-            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
     }
 }
