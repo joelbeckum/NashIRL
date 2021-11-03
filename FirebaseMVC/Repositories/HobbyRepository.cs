@@ -75,6 +75,21 @@ namespace NashIRL.Repositories
             cmd.ExecuteNonQuery();
         }
 
+        public void Delete(int id)
+        {
+            using var conn = Connection;
+            conn.Open();
+            var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    DELETE FROM Hobby
+                    WHERE Hobby.Id = @id";
+
+            DbUtils.AddParameter(cmd, @"id", id);
+
+            cmd.ExecuteNonQuery();
+        }
+
         private Hobby AssembleHobby(SqlDataReader reader, Hobby newHobby)
         {
             newHobby = new Hobby()

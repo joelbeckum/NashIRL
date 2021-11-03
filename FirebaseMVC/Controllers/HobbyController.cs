@@ -114,20 +114,27 @@ namespace NashIRL.Controllers
 
         public ActionResult Delete(int id)
         {
-            return View();
+            var hobby = _hobbyRepository.GetById(id);
+            if (hobby == null)
+            {
+                return NotFound();
+            }
+
+            return View(hobby);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Hobby hobby)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _hobbyRepository.Delete(id);
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(hobby);
             }
         }
     }
