@@ -45,6 +45,11 @@ namespace NashIRL.Controllers
         public ActionResult Details(int id)
         {
             var hobby = _hobbyRepository.GetById(id);
+            if (!hobby.IsApproved)
+            {
+                return Unauthorized();
+            }
+
             var events = _eventRepository.GetByHobbyId(id).Where(e => e.EventOn > DateTime.Now).ToList(); ;
             var currentUserProfileId = GetCurrentUserProfileId();
 

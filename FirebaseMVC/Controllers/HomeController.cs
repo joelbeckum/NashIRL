@@ -26,7 +26,7 @@ namespace NashIRL.Controllers
         public IActionResult Index()
         {
             var currentUserProfile = _userProfileRepository.GetById(GetCurrentUserProfileId());
-            var hobbies = _hobbyRepository.GetAll();
+            var hobbies = _hobbyRepository.GetAll().Where(h => h.IsApproved).ToList();
             var events = _eventRepository.GetAll().Where(e => e.EventOn > DateTime.Now).ToList();
 
             var vm = new HomeViewModel()

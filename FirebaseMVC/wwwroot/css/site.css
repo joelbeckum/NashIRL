@@ -223,6 +223,33 @@ a {
     color: #feda6a;
 }
 
+/* -- Hobby Admin Styling -- */
+.adminHobbies-wrapper {
+    background-color: #d4d4dc;
+    border-radius: 0.25rem;
+    min-height: 400px;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.adminHobby {
+    color: #1d1e22;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.adminHobby-link a {
+    text-decoration: none;
+    color: #1d1e22;
+    transition: all ease-in-out 0.15s;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.adminHobby-link a:hover {
+    color: white;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

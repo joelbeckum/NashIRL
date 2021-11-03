@@ -1,29 +1,57 @@
-﻿@model IEnumerable<NashIRL.Models.ViewModels.HobbyAdminViewModel>
+﻿@model NashIRL.Models.ViewModels.HobbyAdminViewModel
 
-@{
-    ViewData["Title"] = "Index";
-}
+<h1 class="text-center mb-4">Hobby Management</h1>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    <section class="approvedHobbies col-md-6 text-center">
+        <h2>Approved Hobbies</h2>
+        <div class="adminHobbies-wrapper text-center">
+            @foreach (var h in Model.ApprovedHobbies)
+            {
+            <div class="adminHobby-line mb-5 d-flex justify-content-center">
+                <div class="adminHobby-link mr-5">
+                    <a href="@Url.Action("Details", "Hobby", new { id = h.Id })">@h.Name</a>
+                </div>
+                <div class="adminHobby-link mr-4">
+                    <a href="@Url.Action("Edit", "Hobby", new { id = h.Id })">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
+                <div class="adminHobby-link">
+                    <a href="@Url.Action("Delete", "Hobby", new { id = h.Id })">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+            </div>
+            }
+        </div>
+    </section>
+    <section class="pendingHobbies col-md-6 text-center">
+        <h2>Pending Hobbies</h2>
+        <div class="adminHobbies-wrapper text-center">
+            @foreach (var h in Model.PendingHobbies)
+            {
+            <div class="adminHobby-line mb-5 d-flex justify-content-center">
+                <div class="adminHobby mr-5">
+                    <p>@h.Name</p>
+                </div>
+                <div class="adminHobby-link mr-4">
+                    <a href="@Url.Action("Edit", "Hobby", new { id = h.Id })">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
+                <div class="adminHobby-link mr-4">
+                    <a href="@Url.Action("Approve", "Hobby", new { id = h.Id })">
+                        <i class="far fa-thumbs-up"></i>
+                    </a>
+                </div>
+                <div class="adminHobby-link mr-4">
+                    <a href="@Url.Action("Delete", "Hobby", new { id = h.Id })">
+                        <i class="far fa-thumbs-down"></i>
+                    </a>
+                </div>
+            </div>
+            }
+        </div>
+    </section>
+</div>
