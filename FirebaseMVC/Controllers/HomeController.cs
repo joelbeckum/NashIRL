@@ -41,17 +41,6 @@ namespace NashIRL.Controllers
             return View(vm);
         }
 
-        public PartialViewResult AdminOptions()
-        {
-            var currentUser = _userProfileRepository.GetById(GetCurrentUserProfileId());
-            var vm = new AdminNavViewModel()
-            {
-                IsAdmin = currentUser.UserTypeId == 1 ? true : false
-            };
-
-            return PartialView("_AdminOptions", vm);
-        }
-
         public IActionResult Privacy()
         {
             return View();
