@@ -25,9 +25,7 @@ namespace NashIRL.Controllers
 
         public ActionResult Index()
         {
-            var currentUser = _userProfileRepository.GetById(GetCurrentUserProfileId());
-
-            if (currentUser.UserTypeId != 1)
+            if (!User.IsInRole("Admin"))
             {
                 return Unauthorized();
             }
@@ -71,22 +69,22 @@ namespace NashIRL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Hobby hobby)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _hobbyRepository.Add(hobby);
+                return RedirectToAction("Index", "Home");
             }
             catch
             {
-                return View();
+                return View(hobby);
             }
         }
 
         public ActionResult Edit(int id)
         {
-            var currentUser = _userProfileRepository.GetById(GetCurrentUserProfileId());
-            if (currentUser.UserTypeId != 1)
+            if (!User.IsInRole("Admin"))
             {
                 return Unauthorized();
             }
@@ -114,6 +112,11 @@ namespace NashIRL.Controllers
 
         public ActionResult Delete(int id)
         {
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
             var hobby = _hobbyRepository.GetById(id);
             if (hobby == null)
             {

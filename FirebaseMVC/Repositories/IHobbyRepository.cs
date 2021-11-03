@@ -9,6 +9,8 @@ namespace NashIRL.Repositories
 
         Hobby GetById(int id);
 
+        void Add(Hobby hobby);
+
         void Update(Hobby hobby);
 
         void Delete(int id);

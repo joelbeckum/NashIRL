@@ -6,13 +6,16 @@
 <div class="row">
     <section class="hobbies col-md-6 text-center">
         <h2 class="hobbies-title">Hobbies</h2>
-        <div class="hobbies-wrapper d-flex flex-wrap">
+        <div class="hobbies-wrapper d-flex flex-wrap mb-4">
             @foreach (var h in Model.Hobbies)
             {
                 <div class="hobby col-md-4 text-center">
                     <a class="btn btn-primary" href="@Url.Action("Details", "Hobby", new { id = h.Id })">@h.Name</a>
                 </div>
             }
+        </div>
+        <div>
+            <a class="btn btn-primary float-left" href="@Url.Action("Create", "Hobby")">Suggest a new hobby</a>
         </div>
     </section>
     <section class="events col-md-6">

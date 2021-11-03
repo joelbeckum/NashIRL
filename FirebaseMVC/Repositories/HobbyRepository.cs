@@ -58,6 +58,22 @@ namespace NashIRL.Repositories
             return hobby;
         }
 
+        public void Add(Hobby hobby)
+        {
+            var conn = Connection;
+            conn.Open();
+            var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    INSERT INTO Hobby (Name, IsApproved)
+                    OUTPUT INSERTED.Id
+                    VALUES (@name, 0)";
+
+            DbUtils.AddParameter(cmd, "@name", hobby.Name);
+
+            hobby.Id = (int)cmd.ExecuteScalar();
+        }
+
         public void Update(Hobby hobby)
         {
             using var conn = Connection;
