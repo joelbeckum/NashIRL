@@ -74,6 +74,25 @@ namespace NashIRL.Repositories
             hobby.Id = (int)cmd.ExecuteScalar();
         }
 
+        public void Approve(int id, int adminId)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    UPDATE Hobby
+                    SET IsApproved = 1,
+	                    ApprovedBy = @adminId,
+	                    ApprovedOn = GETDATE()
+                    WHERE Hobby.Id = @id";
+
+            DbUtils.AddParameter(cmd, "@id", id);
+            DbUtils.AddParameter(cmd, "@adminId", adminId);
+
+            cmd.ExecuteNonQuery();
+        }
+
         public void Update(Hobby hobby)
         {
             using var conn = Connection;

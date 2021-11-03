@@ -82,6 +82,39 @@ namespace NashIRL.Controllers
             }
         }
 
+        [HttpGet("/Hobby/Approve/{id}")]
+        public ActionResult Approve(int id)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
+            var hobby = _hobbyRepository.GetById(id);
+            if (hobby == null)
+            {
+                return NotFound();
+            }
+
+            return View(hobby);
+        }
+
+        [HttpPost("/Hobby/Approve/{id}")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Approve(int id, Hobby hobby)
+        {
+            try
+            {
+                _hobbyRepository.Approve(id, GetCurrentUserProfileId());
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return View(hobby);
+            }
+        }
+
         public ActionResult Edit(int id)
         {
             if (!User.IsInRole("Admin"))

@@ -1,0 +1,39 @@
+﻿@model NashIRL.Models.Hobby
+
+@{
+    ViewData["Title"] = "Approve";
+}
+
+<h3 class="mb-5">Approve this hobby?</h3>
+
+<p class="pendingHobby-name mb-5">@Model.Name</p>
+
+<form asp-action="Approve">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <input asp-for="Id" type="hidden" />
+    </div>
+    <div class="form-group">
+        <input asp-for="Name" type="hidden" />
+    </div>
+    <div class="form-group">
+        <input asp-for="IsApproved" type="hidden" />
+    </div>
+    <div class="form-group">
+        <input asp-for="ApprovedBy" type="hidden" />
+    </div>
+    <div class="form-group">
+       <input asp-for="ApprovedOn" type="hidden" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Approve" class="btn btn-primary" />
+    </div>
+</form>
+
+<div class="cancel">
+    <a href="@Url.Action("Index", "Hobby")">Cancel</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
