@@ -1,9 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using NashIRL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Tabloid.Utils;
 
@@ -32,18 +28,8 @@ namespace NashIRL.Repositories
 
             if (reader.Read())
             {
-                userProfile = new UserProfile
-                {
-                    Id = DbUtils.GetInt(reader, "Id"),
-                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                    FirstName = DbUtils.GetString(reader, "FirstName"),
-                    LastName = DbUtils.GetString(reader, "LastName"),
-                    Email = DbUtils.GetString(reader, "Email"),
-                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                    ImageUrl = DbUtils.GetString(reader, "ImageUrl")
-                };
+                userProfile = AssembleUserProfile(reader, userProfile);
             }
-            reader.Close();
 
             return userProfile;
         }
@@ -67,50 +53,47 @@ namespace NashIRL.Repositories
 
             if (reader.Read())
             {
-                userProfile = new UserProfile
-                {
-                    Id = DbUtils.GetInt(reader, "Id"),
-                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                    FirstName = DbUtils.GetString(reader, "FirstName"),
-                    LastName = DbUtils.GetString(reader, "LastName"),
-                    Email = DbUtils.GetString(reader, "Email"),
-                    UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                    ImageUrl = DbUtils.GetString(reader, "ImageUrl")
-                };
+                userProfile = AssembleUserProfile(reader, userProfile);
             }
-            reader.Close();
 
             return userProfile;
         }
 
         public void Add(UserProfile userProfile)
         {
-            using (SqlConnection conn = Connection)
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+            
+            cmd.CommandText = @"
+                    INSERT INTO
+                        UserProfile (FirebaseUserId, FirstName, LastName, Email, UserTypeId) 
+                    OUTPUT INSERTED.ID
+                    VALUES(@firebaseUserId, @firstName, @lastName, @email, @userTypeId)";
+
+            DbUtils.AddParameter(cmd, "@firebaseUserId", userProfile.FirebaseUserId);
+            DbUtils.AddParameter(cmd, "@firstName", userProfile.FirstName);
+            DbUtils.AddParameter(cmd, "@lastName", userProfile.LastName);
+            DbUtils.AddParameter(cmd, "@email", userProfile.Email);
+            DbUtils.AddParameter(cmd, "@userTypeId", userProfile.UserTypeId);
+
+            userProfile.Id = (int)cmd.ExecuteScalar();
+        }
+
+        private UserProfile AssembleUserProfile(SqlDataReader reader, UserProfile userProfile)
+        {
+            userProfile = new UserProfile()
             {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                                        INSERT INTO
-                                        UserProfile (FirebaseUserId, FirstName, LastName, Email, UserTypeId) 
-                                        OUTPUT INSERTED.ID
-                                        VALUES(@firebaseUserId, @firstName, @lastName, @email, @userTypeId)";
+                Id = DbUtils.GetInt(reader, "Id"),
+                FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                FirstName = DbUtils.GetString(reader, "FirstName"),
+                LastName = DbUtils.GetString(reader, "LastName"),
+                Email = DbUtils.GetString(reader, "Email"),
+                UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                ImageUrl = DbUtils.GetString(reader, "ImageUrl")
+            };
 
-                    cmd.Parameters.AddWithValue("@firebaseUserId", userProfile.FirebaseUserId);
-                    cmd.Parameters.AddWithValue("@firstName", userProfile.FirstName);
-                    cmd.Parameters.AddWithValue("@lastName", userProfile.LastName);
-                    cmd.Parameters.AddWithValue("@email", userProfile.Email);
-                    cmd.Parameters.AddWithValue("@userTypeId", userProfile.UserTypeId);
-
-                    DbUtils.AddParameter(cmd, "@firebaseUserId", userProfile.FirebaseUserId);
-                    DbUtils.AddParameter(cmd, "@firstName", userProfile.FirstName);
-                    DbUtils.AddParameter(cmd, "@lastName", userProfile.LastName);
-                    DbUtils.AddParameter(cmd, "@email", userProfile.Email);
-                    DbUtils.AddParameter(cmd, "@userTypeId", userProfile.UserTypeId);
-
-                    userProfile.Id = (int)cmd.ExecuteScalar();
-                }
-            }
+            return userProfile;
         }
     }
 }

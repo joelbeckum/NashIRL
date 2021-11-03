@@ -67,14 +67,7 @@ namespace Tabloid.Utils
 
         public static void AddParameter(SqlCommand cmd, string name, object value)
         {
-            if (value == null)
-            {
-                cmd.Parameters.AddWithValue(name, DBNull.Value);
-            }
-            else
-            {
-                cmd.Parameters.AddWithValue(name, value);
-            }
+            cmd.Parameters.AddWithValue(name, value ?? DBNull.Value);
         }
     }
 }

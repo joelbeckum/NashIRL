@@ -1,21 +1,15 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NashIRL.Models;
 using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace NashIRL.Controllers
 {
     [Authorize]
-    public class EventController : Controller
+    public class EventController : BaseController
     {
         private readonly IEventRepository _eventRepository;
         private readonly IHobbyRepository _hobbyRepository;
@@ -166,11 +160,5 @@ namespace NashIRL.Controllers
             }
         }
 
-        private int GetCurrentUserProfileId()
-        {
-            string idString = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            return int.Parse(idString);
-        }
     }
 }

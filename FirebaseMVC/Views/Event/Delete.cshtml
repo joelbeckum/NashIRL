@@ -46,7 +46,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger mb-4" />
+        <input type="submit" value="Delete" class="btn btn-primary mb-4" />
         <a href="@Url.Action("Details", new { id = Model.Id })">
             <div class="cancel">
                 <a href="@Url.Action("Details", "Event", new { id = Model.Id })">Cancel</a>

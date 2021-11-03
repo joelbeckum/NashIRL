@@ -1,19 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NashIRL.Models;
 using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace NashIRL.Controllers
 {
     [Authorize]
-    public class CommentController : Microsoft.AspNetCore.Mvc.Controller
+    public class CommentController : BaseController
     {
         private readonly ICommentRepository _commentRepository;
 
@@ -33,7 +28,7 @@ namespace NashIRL.Controllers
             return View(vm);
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("/Comment/Create/{id}")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CommentFormViewModel vm, int id)
         {
@@ -102,13 +97,6 @@ namespace NashIRL.Controllers
             {
                 return View(comment);
             }
-        }
-
-        private int GetCurrentUserProfileId()
-        {
-            string idString = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            return int.Parse(idString);
         }
     }
 }

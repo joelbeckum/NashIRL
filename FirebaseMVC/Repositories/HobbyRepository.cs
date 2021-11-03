@@ -1,9 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using NashIRL.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Tabloid.Utils;
 
@@ -30,7 +27,7 @@ namespace NashIRL.Repositories
             while (reader.Read())
             {
                 Hobby hobby = null;
-                hobby = AssignNewHobby(reader, hobby);
+                hobby = AssembleHobby(reader, hobby);
                 hobbies.Add(hobby);
             }
             return hobbies;
@@ -55,13 +52,13 @@ namespace NashIRL.Repositories
 
             if (reader.Read())
             {
-                hobby = AssignNewHobby(reader, hobby);
+                hobby = AssembleHobby(reader, hobby);
             }
 
             return hobby;
         }
 
-        private Hobby AssignNewHobby(SqlDataReader reader, Hobby newHobby)
+        private Hobby AssembleHobby(SqlDataReader reader, Hobby newHobby)
         {
             newHobby = new Hobby()
             {
@@ -74,11 +71,5 @@ namespace NashIRL.Repositories
 
             return newHobby;
         }
-
-        // TODO:
-        // - GetById()
-        // - Add()
-        // - Update()
-        // - Delete()
     }
 }
