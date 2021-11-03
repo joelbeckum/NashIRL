@@ -8,5 +8,7 @@ namespace NashIRL.Repositories
         List<Hobby> GetAll();
 
         Hobby GetById(int id);
+
+        void Update(Hobby hobby);
     }
 }

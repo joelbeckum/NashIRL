@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace NashIRL.Repositories
 {
-    public class BaseRepository
+    public abstract class BaseRepository
     {
         private string _connectionString;
         public BaseRepository(IConfiguration config)
@@ -11,12 +11,6 @@ namespace NashIRL.Repositories
             _connectionString = config.GetConnectionString("DefaultConnection");
         }
 
-        protected SqlConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_connectionString);
-            }
-        }
+        protected SqlConnection Connection => new SqlConnection(_connectionString);
     }
 }

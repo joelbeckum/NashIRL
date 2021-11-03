@@ -58,6 +58,23 @@ namespace NashIRL.Repositories
             return hobby;
         }
 
+        public void Update(Hobby hobby)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    UPDATE Hobby
+                    SET [Name] = @name
+                    WHERE Hobby.Id = @id";
+
+            DbUtils.AddParameter(cmd, "@name", hobby.Name);
+            DbUtils.AddParameter(cmd, "@id", hobby.Id);
+
+            cmd.ExecuteNonQuery();
+        }
+
         private Hobby AssembleHobby(SqlDataReader reader, Hobby newHobby)
         {
             newHobby = new Hobby()

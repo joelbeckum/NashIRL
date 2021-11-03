@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NashIRL.Models;
 using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
@@ -84,20 +85,30 @@ namespace NashIRL.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            var currentUser = _userProfileRepository.GetById(GetCurrentUserProfileId());
+            if (currentUser.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
+            var hobby = _hobbyRepository.GetById(id);
+
+            return View(hobby);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Hobby hobby)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _hobbyRepository.Update(hobby);
+
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(hobby);
             }
         }
 
