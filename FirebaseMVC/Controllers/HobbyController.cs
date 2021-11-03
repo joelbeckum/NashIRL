@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NashIRL.Models;
 using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
@@ -24,9 +25,7 @@ namespace NashIRL.Controllers
 
         public ActionResult Index()
         {
-            var currentUser = _userProfileRepository.GetById(GetCurrentUserProfileId());
-
-            if (currentUser.UserTypeId != 1)
+            if (!User.IsInRole("Admin"))
             {
                 return Unauthorized();
             }
@@ -70,53 +69,108 @@ namespace NashIRL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Hobby hobby)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _hobbyRepository.Add(hobby);
+                return RedirectToAction("Index", "Home");
             }
             catch
             {
-                return View();
+                return View(hobby);
+            }
+        }
+
+        [HttpGet("/Hobby/Approve/{id}")]
+        public ActionResult Approve(int id)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
+            var hobby = _hobbyRepository.GetById(id);
+            if (hobby == null)
+            {
+                return NotFound();
+            }
+
+            return View(hobby);
+        }
+
+        [HttpPost("/Hobby/Approve/{id}")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Approve(int id, Hobby hobby)
+        {
+            try
+            {
+                _hobbyRepository.Approve(id, GetCurrentUserProfileId());
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return View(hobby);
             }
         }
 
         public ActionResult Edit(int id)
         {
-            return View();
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
+            var hobby = _hobbyRepository.GetById(id);
+
+            return View(hobby);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Hobby hobby)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _hobbyRepository.Update(hobby);
+
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(hobby);
             }
         }
 
         public ActionResult Delete(int id)
         {
-            return View();
+            if (!User.IsInRole("Admin"))
+            {
+                return Unauthorized();
+            }
+
+            var hobby = _hobbyRepository.GetById(id);
+            if (hobby == null)
+            {
+                return NotFound();
+            }
+
+            return View(hobby);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Hobby hobby)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _hobbyRepository.Delete(id);
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(hobby);
             }
         }
     }

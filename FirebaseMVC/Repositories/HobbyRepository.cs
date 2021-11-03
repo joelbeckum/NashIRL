@@ -58,6 +58,73 @@ namespace NashIRL.Repositories
             return hobby;
         }
 
+        public void Add(Hobby hobby)
+        {
+            var conn = Connection;
+            conn.Open();
+            var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    INSERT INTO Hobby (Name, IsApproved)
+                    OUTPUT INSERTED.Id
+                    VALUES (@name, 0)";
+
+            DbUtils.AddParameter(cmd, "@name", hobby.Name);
+
+            hobby.Id = (int)cmd.ExecuteScalar();
+        }
+
+        public void Approve(int id, int adminId)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    UPDATE Hobby
+                    SET IsApproved = 1,
+	                    ApprovedBy = @adminId,
+	                    ApprovedOn = GETDATE()
+                    WHERE Hobby.Id = @id";
+
+            DbUtils.AddParameter(cmd, "@id", id);
+            DbUtils.AddParameter(cmd, "@adminId", adminId);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public void Update(Hobby hobby)
+        {
+            using var conn = Connection;
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    UPDATE Hobby
+                    SET [Name] = @name
+                    WHERE Hobby.Id = @id";
+
+            DbUtils.AddParameter(cmd, "@name", hobby.Name);
+            DbUtils.AddParameter(cmd, "@id", hobby.Id);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public void Delete(int id)
+        {
+            using var conn = Connection;
+            conn.Open();
+            var cmd = conn.CreateCommand();
+
+            cmd.CommandText = @"
+                    DELETE FROM Hobby
+                    WHERE Hobby.Id = @id";
+
+            DbUtils.AddParameter(cmd, @"id", id);
+
+            cmd.ExecuteNonQuery();
+        }
+
         private Hobby AssembleHobby(SqlDataReader reader, Hobby newHobby)
         {
             newHobby = new Hobby()
