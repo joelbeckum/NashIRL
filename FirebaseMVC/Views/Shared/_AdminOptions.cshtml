@@ -1,0 +1,8 @@
+﻿@model NashIRL.Models.ViewModels.AdminNavViewModel
+
+@if (Model.IsAdmin)
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Hobby" asp-action="/">Hobbies</a>
+    </li>
+}

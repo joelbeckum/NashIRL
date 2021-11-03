@@ -102,6 +102,7 @@ namespace NashIRL.Auth
             {
                 new Claim(ClaimTypes.NameIdentifier, userProfile.Id.ToString()),
                 new Claim(ClaimTypes.Email, userProfile.Email),
+                new Claim(ClaimTypes.Role, userProfile.UserTypeId ==1 ? "Admin" : "User")
             };
 
             var claimsIdentity = new ClaimsIdentity(

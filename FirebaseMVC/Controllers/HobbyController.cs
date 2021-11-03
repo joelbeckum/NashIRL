@@ -26,13 +26,26 @@ namespace NashIRL.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
-        // GET: HobbyController
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+        public ActionResult Index()
+        {
+            var currentUser = _userProfileRepository.GetById(GetCurrentUserProfileId());
 
-        // GET: HobbyController/Details/5
+            if (currentUser.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
+            var hobbies = _hobbyRepository.GetAll();
+
+            var vm = new HobbyAdminViewModel()
+            {
+                ApprovedHobbies = hobbies.Where(h => h.IsApproved).ToList(),
+                PendingHobbies = hobbies.Where(h => !h.IsApproved).ToList()
+            };
+
+            return View(vm);
+        }
+
         public ActionResult Details(int id)
         {
             var hobby = _hobbyRepository.GetById(id);
@@ -49,13 +62,11 @@ namespace NashIRL.Controllers
             return View(vm);
         }
 
-        // GET: HobbyController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: HobbyController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -70,13 +81,11 @@ namespace NashIRL.Controllers
             }
         }
 
-        // GET: HobbyController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: HobbyController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -91,13 +100,11 @@ namespace NashIRL.Controllers
             }
         }
 
-        // GET: HobbyController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: HobbyController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
