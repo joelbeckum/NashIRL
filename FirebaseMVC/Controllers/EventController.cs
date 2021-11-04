@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using NashIRL.Models.ViewModels;
 using NashIRL.Repositories;
 using System;
+using System.Linq;
 
 namespace NashIRL.Controllers
 {
@@ -53,9 +54,12 @@ namespace NashIRL.Controllers
         [HttpGet("/Event/Create/{id}")]
         public ActionResult Create(int id)
         {
-            var vm = new EventFormViewModel();
-            vm.HobbyNavId = id;
-            vm.Hobbies = _hobbyRepository.GetAll();
+            var vm = new EventFormViewModel()
+            {
+                HobbyNavId = id,
+                Hobbies = _hobbyRepository.GetAll().Where(h => h.IsApproved).ToList()
+            };
+            
 
             return View(vm);
         }
@@ -95,7 +99,7 @@ namespace NashIRL.Controllers
             var vm = new EventFormViewModel()
             {
                 NewEvent = _eventRepository.GetById(id),
-                Hobbies = _hobbyRepository.GetAll()
+                Hobbies = _hobbyRepository.GetAll().Where(h => h.IsApproved).ToList()
             };
             if (vm.NewEvent.UserProfileId != GetCurrentUserProfileId())
             {
