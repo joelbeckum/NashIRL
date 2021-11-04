@@ -28,6 +28,11 @@ namespace NashIRL.Controllers
             var currentUserProfile = _userProfileRepository.GetById(GetCurrentUserProfileId());
             var hobbies = _hobbyRepository.GetAll().Where(h => h.IsApproved).ToList();
             var events = _eventRepository.GetAll().Where(e => e.EventOn > DateTime.Now).ToList();
+            foreach (var e in events)
+            {
+                e.Name = TruncateString(e.Name, 30);
+                e.Description = TruncateString(e.Description, 125);
+            }
 
             var vm = new HomeViewModel()
             {

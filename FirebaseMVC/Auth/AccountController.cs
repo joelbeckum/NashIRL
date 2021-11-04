@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using NashIRL.Auth.Models;
 using NashIRL.Repositories;
 using NashIRL.Models;
+using NashIRL.Controllers;
 
 namespace NashIRL.Auth
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly IFirebaseAuthService _firebaseAuthService;
         private readonly IUserProfileRepository _userProfileRepository;

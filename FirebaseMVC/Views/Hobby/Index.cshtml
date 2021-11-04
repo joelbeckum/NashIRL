@@ -8,7 +8,7 @@
         <div class="adminHobbies-wrapper text-center">
             @foreach (var h in Model.ApprovedHobbies)
             {
-            <div class="adminHobby-line mb-5 d-flex justify-content-center">
+            <div class="adminHobby-line mb-5 d-flex justify-content-end pr-5">
                 <div class="adminHobby-link mr-5">
                     <a href="@Url.Action("Details", "Hobby", new { id = h.Id })">@h.Name</a>
                 </div>
@@ -17,7 +17,7 @@
                         <i class="fas fa-edit"></i>
                     </a>
                 </div>
-                <div class="adminHobby-link">
+                <div class="adminHobby-link mr-5">
                     <a href="@Url.Action("Delete", "Hobby", new { id = h.Id })">
                         <i class="fas fa-trash-alt"></i>
                     </a>
@@ -31,7 +31,7 @@
         <div class="adminHobbies-wrapper text-center">
             @foreach (var h in Model.PendingHobbies)
             {
-            <div class="adminHobby-line mb-5 d-flex justify-content-center">
+            <div class="adminHobby-line mb-5 d-flex justify-content-end pr-5">
                 <div class="adminHobby mr-5">
                     <p>@h.Name</p>
                 </div>
