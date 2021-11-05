@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using NashIRL.Repositories;
 using System.Linq;
 using System;
+using NashIRL.Utils;
 
 namespace NashIRL.Controllers
 {
@@ -30,8 +31,8 @@ namespace NashIRL.Controllers
             var events = _eventRepository.GetAll().Where(e => e.EventOn > DateTime.Now).ToList();
             foreach (var e in events)
             {
-                e.Name = TruncateString(e.Name, 30);
-                e.Description = TruncateString(e.Description, 125);
+                e.Name = e.Name.Truncate(30);
+                e.Description = e.Description.Truncate(125);
             }
 
             var vm = new HomeViewModel()

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NashIRL.Models;
 using NashIRL.Models.ViewModels;
@@ -14,13 +13,11 @@ namespace NashIRL.Controllers
     {
         private readonly IHobbyRepository _hobbyRepository;
         private readonly IEventRepository _eventRepository;
-        private readonly IUserProfileRepository _userProfileRepository;
 
-        public HobbyController(IHobbyRepository hobbyRepository, IEventRepository eventRepository, IUserProfileRepository userProfileRepository)
+        public HobbyController(IHobbyRepository hobbyRepository, IEventRepository eventRepository)
         {
             _hobbyRepository = hobbyRepository;
             _eventRepository = eventRepository;
-            _userProfileRepository = userProfileRepository;
         }
 
         public ActionResult Index()
